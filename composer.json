@@ -1,0 +1,16 @@
+{
+    "name": "bviguier/reveal-php",
+    "description": "Create and run presentation from Php.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Benoit Viguier",
+            "email": "benoit.viguier.pro+github@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-SDL": "^2.1"
+    }
+}
