@@ -11,6 +11,12 @@
     ],
     "require": {
         "php": "^7.2",
-        "ext-SDL": "^2.1"
+        "ext-SDL": "^2.1",
+        "ext-imagick": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "RevealPhp\\": "src/"
+        }
     }
 }
