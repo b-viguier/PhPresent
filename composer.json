@@ -18,5 +18,10 @@
         "psr-4": {
             "RevealPhp\\": "src/"
         }
+    },
+    "scripts": {
+        "cs": "./ci/php-cs-fixer fix --dry-run --diff",
+        "cs-fix": "./ci/php-cs-fixer fix",
+        "cs-ci": "./ci/php-cs-fixer fix --dry-run --using-cache=no --verbose"
     }
 }
