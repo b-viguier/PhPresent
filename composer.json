@@ -20,6 +20,7 @@
         }
     },
     "scripts": {
+        "analyse": "./ci/phpstan --level=max analyse src/",
         "cs": "./ci/php-cs-fixer fix --dry-run --diff",
         "cs-fix": "./ci/php-cs-fixer fix",
         "cs-ci": "./ci/php-cs-fixer fix --dry-run --using-cache=no --verbose"
