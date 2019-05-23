@@ -3,18 +3,28 @@
 namespace RevealPhp\Infrastructure\Render;
 
 use RevealPhp\Domain;
-use RevealPhp\Domain\Geometry;
 
-class ImagickDrawer implements Domain\Render\Drawer
+class ImagickDrawer implements Domain\Render\ResizeableDrawer
 {
     public function clear(): Domain\Render\Drawer
     {
-        $this->__construct();
+        $this->drawer = new \ImagickDraw();
+
+        // Global initialization
+        $this->drawer->setStrokeColor('#000');
+        $this->drawer->setFillColor('#fff');
+        $this->drawer->setStrokeOpacity(1);
+        $this->drawer->setStrokeWidth(2);
 
         return $this;
     }
 
-    public function rectangle(Geometry\Rect $rect): Domain\Render\Drawer
+    public function setSize(Domain\Geometry\Size $size)
+    {
+        $this->size = $size;
+    }
+
+    public function rectangle(Domain\Geometry\Rect $rect): Domain\Render\Drawer
     {
         $this->drawer->rectangle($rect->topLeft()->x(), $rect->topLeft()->y(), $rect->bottomRight()->x(), $rect->bottomRight()->y());
 
@@ -24,7 +34,7 @@ class ImagickDrawer implements Domain\Render\Drawer
     public function getBmpData(): string
     {
         $image = new \Imagick();
-        $image->newImage(500, 500, '#f00');
+        $image->newImage($this->size->width(), $this->size->height(), '#f00');
         $image->setImageFormat('bmp');
         $image->drawImage($this->drawer);
 
@@ -33,15 +43,12 @@ class ImagickDrawer implements Domain\Render\Drawer
 
     public function __construct()
     {
-        $this->drawer = new \ImagickDraw();
-
-        // Global initialization
-        $this->drawer->setStrokeColor('#000');
-        $this->drawer->setFillColor('#fff');
-        $this->drawer->setStrokeOpacity(1);
-        $this->drawer->setStrokeWidth(2);
+        $this->size = Domain\Geometry\Size::fromDimensions(640, 480);
+        $this->clear();
     }
 
     /** @var \ImagickDraw */
     private $drawer;
+    /** @var Domain\Geometry\Size */
+    private $size;
 }

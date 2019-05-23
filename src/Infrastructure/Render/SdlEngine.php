@@ -18,7 +18,7 @@ class SdlEngine implements Domain\Render\Engine
         $this->renderer = \SDL_CreateRenderer($this->window, -1, 0);
     }
 
-    public function start(Domain\Presentation\SlideShow $slideShow, Domain\Render\Drawer $drawer)
+    public function start(Domain\Presentation\SlideShow $slideShow, Domain\Render\ResizeableDrawer $drawer)
     {
         // Events data
         $quit = false;
@@ -32,6 +32,11 @@ class SdlEngine implements Domain\Render\Engine
                         $quit = true;
                         break;
                     case SDL_WINDOWEVENT:
+                        if ($event->window->event === SDL_WINDOWEVENT_RESIZED) {
+                            $drawer->setSize(
+                                Domain\Geometry\Size::fromDimensions($event->window->data1, $event->window->data2)
+                            );
+                        }
                         break;
                     case SDL_KEYDOWN:
                         switch ($event->key->keysym->sym) {

@@ -6,5 +6,5 @@ use RevealPhp\Domain\Presentation;
 
 interface Engine
 {
-    public function start(Presentation\SlideShow $slideShow, Drawer $drawer);
+    public function start(Presentation\SlideShow $slideShow, ResizeableDrawer $drawer);
 }
