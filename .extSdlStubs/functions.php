@@ -8,7 +8,7 @@ function SDL_InitSubSystem($flags) {}
 function SDL_Quit() {}
 function SDL_QuitSubSystem($flags) {}
 function SDL_WasInit($flags) {}
-function SDL_CreateWindow($title, $x, $y, $w, $h, $flags) {}
+function SDL_CreateWindow($title, $x, $y, $w, $h, $flags): SDL_Window {}
 function SDL_CreateShapedWindow($title, $x, $y, $w, $h, $flags) {}
 function SDL_DestroyWindow(SDL_Window $window) {}
 function SDL_UpdateWindowSurface(SDL_Window $window) {}
@@ -56,7 +56,7 @@ function SDL_VERSION(&$version) {}
 function SDL_VERSIONNUM($x, $y, $z) {}
 function SDL_VERSION_ATLEAST($x, $y, $z) {}
 function SDL_Delay($ms) {}
-function SDL_CreateRenderer(SDL_Window $window, $index, $flags) {}
+function SDL_CreateRenderer(SDL_Window $window, $index, $flags): SDL_Renderer {}
 function SDL_DestroyRenderer($renderer) {}
 function SDL_DestroyTexture($texture) {}
 function SDL_SetRenderDrawColor($renderer, $r, $g, $b, $a) {}
@@ -66,7 +66,7 @@ function SDL_RenderCopy($renderer, $texture, SDL_Rect $srcrect, SDL_Rect $dstrec
 function SDL_RenderCopyEx($renderer, $texture, SDL_Rect $srcrect, SDL_Rect $dstrect, $angle, SDL_Point $center, $flip) {}
 function SDL_RenderFillRect($renderer, SDL_Rect $rect) {}
 function SDL_RenderPresent($renderer) {}
-function SDL_CreateTextureFromSurface($renderer, SDL_Surface $surface) {}
+function SDL_CreateTextureFromSurface($renderer, SDL_Surface $surface): SDL_Texture {}
 function SDL_CreateRGBSurface($flags, $width, $height, $depth, $Rmask, $Gmask, $Bmask = NULL, $Amask = NULL) {}
 function SDL_FreeSurface(SDL_Surface $surface) {}
 function SDL_FillRect(SDL_Surface $surface, $rect, $color) {}
@@ -74,7 +74,7 @@ function SDL_FillRects(SDL_Surface $surface, $rects, $count, $color) {}
 function SDL_MUSTLOCK(SDL_Surface $surface) {}
 function SDL_LockSurface(SDL_Surface $surface) {}
 function SDL_UnlockSurface(SDL_Surface $surface) {}
-function SDL_LoadBMP_RW(SDL_RWops &$RWops, $freesrc) {}
+function SDL_LoadBMP_RW(SDL_RWops &$RWops, $freesrc): SDL_Surface {}
 function SDL_LoadBMP($path) {}
 function SDL_UpperBlit(SDL_Surface $src, SDL_Rect $srcrect, SDL_Surface $dst, SDL_Rect &$dstrect = NULL) {}
 function SDL_LowerBlit(SDL_Surface $src, SDL_Rect &$srcrect, SDL_Surface $dst, SDL_Rect &$dstrect) {}
@@ -224,7 +224,7 @@ function SDL_FreeRW(SDL_RWops $RWops) {}
 function SDL_RWFromFile($path, $mode) {}
 function SDL_RWFromFP($fp, $autoclose = NULL) {}
 function SDL_RWFromMem(&$buf, $size) {}
-function SDL_RWFromConstMem($buf, $size = NULL) {}
+function SDL_RWFromConstMem($buf, $size = NULL): SDL_RWops {}
 function SDL_RWsize(SDL_RWops $RWops) {}
 function SDL_RWseek(SDL_RWops $RWops, $offset, $whence) {}
 function SDL_RWtell(SDL_RWops $RWops) {}
