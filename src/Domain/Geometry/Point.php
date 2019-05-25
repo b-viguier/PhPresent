@@ -8,11 +8,11 @@ class Point
 {
     public static function fromCoordinates(float $x, float $y): self
     {
-        $instance = new self();
-        $instance->x = $x;
-        $instance->y = $y;
+        $point = new self();
+        $point->x = $x;
+        $point->y = $y;
 
-        return $instance;
+        return $point;
     }
 
     public function x(): float

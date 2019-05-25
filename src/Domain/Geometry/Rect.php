@@ -8,11 +8,11 @@ class Rect
 {
     public static function fromOriginAndSize(Point $origin, Size $size): self
     {
-        $instance = new self();
-        $instance->origin = $origin;
-        $instance->size = $size;
+        $rect = new self();
+        $rect->origin = $origin;
+        $rect->size = $size;
 
-        return $instance;
+        return $rect;
     }
 
     public function topLeft(): Point

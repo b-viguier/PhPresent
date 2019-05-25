@@ -8,11 +8,11 @@ class Size
 {
     public static function fromDimensions(float $width, float $height): self
     {
-        $instance = new self();
-        $instance->width = $width;
-        $instance->height = $height;
+        $size = new self();
+        $size->width = self::sanitize($width);
+        $size->height = self::sanitize($height);
 
-        return $instance;
+        return $size;
     }
 
     public function width(): float
@@ -26,6 +26,15 @@ class Size
     }
 
     use Pattern\PrivateConstructor;
+
+    private static function sanitize(float $value): float
+    {
+        if ($value <= 0) {
+            throw new Exception\SizeException();
+        }
+
+        return $value;
+    }
 
     /** @var float */
     private $width = 0.0;
