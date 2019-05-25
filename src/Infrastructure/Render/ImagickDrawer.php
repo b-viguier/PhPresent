@@ -3,6 +3,8 @@
 namespace RevealPhp\Infrastructure\Render;
 
 use RevealPhp\Domain;
+use RevealPhp\Domain\Geometry;
+use RevealPhp\Domain\Graphic;
 
 class ImagickDrawer implements Domain\Render\ResizeableDrawer
 {
@@ -10,22 +12,25 @@ class ImagickDrawer implements Domain\Render\ResizeableDrawer
     {
         $this->drawer = new \ImagickDraw();
 
-        // Global initialization
-        $this->drawer->setStrokeColor('#000');
-        $this->drawer->setFillColor('#fff');
-        $this->drawer->setStrokeOpacity(1);
-        $this->drawer->setStrokeWidth(2);
-
         return $this;
     }
 
-    public function setSize(Domain\Geometry\Size $size)
+    public function setSize(Geometry\Size $size): void
     {
         $this->size = $size;
     }
 
-    public function rectangle(Domain\Geometry\Rect $rect): Domain\Render\Drawer
+    public function getArea(): Geometry\Rect
     {
+        return Geometry\Rect::fromOriginAndSize(
+            Geometry\Point::fromCoordinates(0, 0),
+            $this->size
+        );
+    }
+
+    public function rectangle(Geometry\Rect $rect, Graphic\ShapeBrush $shapeBrush): Domain\Render\Drawer
+    {
+        $this->applyShapeBrush($shapeBrush);
         $this->drawer->rectangle($rect->topLeft()->x(), $rect->topLeft()->y(), $rect->bottomRight()->x(), $rect->bottomRight()->y());
 
         return $this;
@@ -43,12 +48,19 @@ class ImagickDrawer implements Domain\Render\ResizeableDrawer
 
     public function __construct()
     {
-        $this->size = Domain\Geometry\Size::fromDimensions(640, 480);
+        $this->size = Geometry\Size::fromDimensions(640, 480);
         $this->clear();
+    }
+
+    private function applyShapeBrush(Graphic\ShapeBrush $shapeBrush): void
+    {
+        $this->drawer->setStrokeColor($shapeBrush->strokeColor()->hex());
+        $this->drawer->setFillColor($shapeBrush->fillColor()->hex());
+        $this->drawer->setStrokeWidth($shapeBrush->strokeWidth());
     }
 
     /** @var \ImagickDraw */
     private $drawer;
-    /** @var Domain\Geometry\Size */
+    /** @var Geometry\Size */
     private $size;
 }
