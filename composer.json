@@ -12,7 +12,8 @@
     "require": {
         "php": "^7.2",
         "ext-SDL": "^2.1",
-        "ext-imagick": "^3.4"
+        "ext-imagick": "^3.4",
+        "imagine/imagine": "^1.2"
     },
     "autoload": {
         "psr-4": {

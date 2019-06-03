@@ -18,6 +18,6 @@ $presentation
 ;
 
 $engine = new Infrastructure\Render\SdlEngine();
-$drawer = new Infrastructure\Render\ImagickDrawer();
+$imagine = new Imagine\Imagick\Imagine();
 
-$engine->start($presentation, $drawer);
+$engine->start($presentation, $imagine);

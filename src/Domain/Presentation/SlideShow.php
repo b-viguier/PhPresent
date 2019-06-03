@@ -2,8 +2,10 @@
 
 namespace RevealPhp\Domain\Presentation;
 
-use RevealPhp\Domain\Graphic;
-use RevealPhp\Domain\Render;
+use Imagine\Draw\DrawerInterface;
+use Imagine\Image\BoxInterface;
+use Imagine\Image\Palette\PaletteInterface;
+use Imagine\Image\Point;
 
 class SlideShow
 {
@@ -14,20 +16,19 @@ class SlideShow
         return $this;
     }
 
-    public function currentImage(Render\Drawer $drawer): string
+    public function currentImage(DrawerInterface $drawer, BoxInterface $dimensions, PaletteInterface $palette): string
     {
         // Draw background
         $drawer->rectangle(
-            $drawer->getArea(),
-            Graphic\ShapeBrush::createDefault()
-                ->withFillColor(Graphic\Color::RGB(0, 255, 0))
-                ->withStrokeColor(Graphic\Color::RGB(255, 0, 0))
+            new Point(0, 0),
+            new Point($dimensions->getWidth() - 1, $dimensions->getHeight() - 1),
+            $palette->color('#0F0')
         );
 
         /** @var Slide */
         $slide = $this->slides[$this->currentIndex];
 
-        return $slide->render($drawer);
+        return $slide->render($drawer, $dimensions, $palette);
     }
 
     public function next()

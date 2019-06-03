@@ -2,6 +2,8 @@
 
 namespace RevealPhp\Infrastructure\Render;
 
+use Imagine\Image\Box;
+use Imagine\Image\ImagineInterface;
 use RevealPhp\Domain;
 
 class SdlEngine implements Domain\Render\Engine
@@ -18,11 +20,16 @@ class SdlEngine implements Domain\Render\Engine
         $this->renderer = \SDL_CreateRenderer($this->window, -1, 0);
     }
 
-    public function start(Domain\Presentation\SlideShow $slideShow, Domain\Render\ResizeableDrawer $drawer)
+    public function start(Domain\Presentation\SlideShow $slideShow, ImagineInterface $imagine)
     {
         // Events data
         $quit = false;
         $event = new \SDL_Event();
+
+        // Image initialization
+        $palette = new \Imagine\Image\Palette\RGB();
+        $width = $height = 1;
+        $this->window->getSize($width, $height);
 
         while (!$quit) {
             // Inputs polling
@@ -33,9 +40,8 @@ class SdlEngine implements Domain\Render\Engine
                         break;
                     case SDL_WINDOWEVENT:
                         if ($event->window->event === SDL_WINDOWEVENT_RESIZED) {
-                            $drawer->setSize(
-                                Domain\Geometry\Size::fromDimensions($event->window->data1, $event->window->data2)
-                            );
+                            $width = $event->window->data1;
+                            $height = $event->window->data2;
                         }
                         break;
                     case SDL_KEYDOWN:
@@ -56,10 +62,14 @@ class SdlEngine implements Domain\Render\Engine
             \SDL_SetRenderDrawColor($this->renderer, 95, 150, 249, 255);
             \SDL_RenderClear($this->renderer);
 
-            $drawer->clear();
-            $image = $slideShow->currentImage($drawer);
-            $stream = \SDL_RWFromConstMem($image, strlen($image));
-            unset($image);
+            // Clear image
+            $image = $imagine->create(new Box($width, $height), $palette->color('#000'));
+
+            // Rendering
+            $slideShow->currentImage($image->draw(), $image->getSize(), $image->palette());
+            $binaryImage = $image->get('bmp');
+            $stream = \SDL_RWFromConstMem($binaryImage, strlen($binaryImage));
+            unset($binaryImage);
             $surface = \SDL_LoadBMP_RW($stream, 1/*free*/);
             $texture = \SDL_CreateTextureFromSurface($this->renderer, $surface);
             \SDL_FreeSurface($surface);
