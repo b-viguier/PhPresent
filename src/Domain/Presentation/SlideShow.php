@@ -20,7 +20,7 @@ class SlideShow
         $drawer->rectangle(
             $drawer->getArea(),
             Graphic\ShapeBrush::createDefault()
-                ->withFillColor(Graphic\Color::RGB(0, 255, 0))
+                ->withFillColor(Graphic\Color::RGB(0, 0, 0))
                 ->withStrokeColor(Graphic\Color::RGB(255, 0, 0))
         );
 

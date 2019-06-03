@@ -24,7 +24,7 @@ class ImagickDrawer implements Domain\Render\ResizeableDrawer
     {
         return Geometry\Rect::fromOriginAndSize(
             Geometry\Point::fromCoordinates(0, 0),
-            $this->size
+            Geometry\Size::fromDimensions($this->size->width() - 1, $this->size->height() - 1)
         );
     }
 
