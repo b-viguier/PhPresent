@@ -19,8 +19,8 @@ class SlideShow
         // Draw background
         $drawer->rectangle(
             $drawer->getArea(),
-            Graphic\ShapeBrush::createDefault()
-                ->withFillColor(Graphic\Color::RGB(0, 0, 0))
+            Graphic\Brush::createDefault()
+                ->withFillColor(Graphic\Color::black())
                 ->withStrokeColor(Graphic\Color::RGB(255, 0, 0))
         );
 

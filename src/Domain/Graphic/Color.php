@@ -17,6 +17,16 @@ class Color
         return $color;
     }
 
+    public static function black(): self
+    {
+        return self::RGB(0, 0, 0);
+    }
+
+    public static function white(): self
+    {
+        return self::RGB(255, 255, 255);
+    }
+
     /**
      * Pattern: #RRGGBBAA
      */

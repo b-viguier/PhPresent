@@ -4,7 +4,7 @@ namespace RevealPhp\Domain\Graphic;
 
 use RevealPhp\Domain\Pattern;
 
-class ShapeBrush
+class Brush
 {
     public static function createDefault(): self
     {
@@ -16,10 +16,10 @@ class ShapeBrush
 
     public function withStrokeWidth(int $width): self
     {
-        $shapeBrush = clone $this;
-        $shapeBrush->strokeWidth = $width;
+        $brush = clone $this;
+        $brush->strokeWidth = $width;
 
-        return $shapeBrush;
+        return $brush;
     }
 
     public function strokeWidth(): int
@@ -29,10 +29,10 @@ class ShapeBrush
 
     public function withStrokeColor(Color $color): self
     {
-        $shapeBrush = clone $this;
-        $shapeBrush->strokeColor = $color;
+        $brush = clone $this;
+        $brush->strokeColor = $color;
 
-        return $shapeBrush;
+        return $brush;
     }
 
     public function strokeColor(): Color
@@ -42,10 +42,10 @@ class ShapeBrush
 
     public function withFillColor(Color $color): self
     {
-        $shapeBrush = clone $this;
-        $shapeBrush->fillColor = $color;
+        $brush = clone $this;
+        $brush->fillColor = $color;
 
-        return $shapeBrush;
+        return $brush;
     }
 
     public function fillColor(): Color

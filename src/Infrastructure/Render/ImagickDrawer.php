@@ -28,10 +28,22 @@ class ImagickDrawer implements Domain\Render\ResizeableDrawer
         );
     }
 
-    public function rectangle(Geometry\Rect $rect, Graphic\ShapeBrush $shapeBrush): Domain\Render\Drawer
+    public function rectangle(Geometry\Rect $rect, Graphic\Brush $brush): Domain\Render\Drawer
     {
-        $this->applyShapeBrush($shapeBrush);
+        $this->applyBrush($brush);
         $this->drawer->rectangle($rect->topLeft()->x(), $rect->topLeft()->y(), $rect->bottomRight()->x(), $rect->bottomRight()->y());
+
+        return $this;
+    }
+
+    public function text(string $text, Geometry\Point $position, Graphic\Font $font, Graphic\Brush $brush): Domain\Render\Drawer
+    {
+        $this->applyBrush($brush);
+
+        $this->drawer->setFont($font->fontFile());
+        $this->drawer->setFontSize($font->size());
+
+        $this->drawer->annotation((int) $position->x(), (int) $position->y(), $text);
 
         return $this;
     }
@@ -52,11 +64,11 @@ class ImagickDrawer implements Domain\Render\ResizeableDrawer
         $this->clear();
     }
 
-    private function applyShapeBrush(Graphic\ShapeBrush $shapeBrush): void
+    private function applyBrush(Graphic\Brush $brush): void
     {
-        $this->drawer->setStrokeColor($shapeBrush->strokeColor()->hex());
-        $this->drawer->setFillColor($shapeBrush->fillColor()->hex());
-        $this->drawer->setStrokeWidth($shapeBrush->strokeWidth());
+        $this->drawer->setStrokeColor($brush->strokeColor()->hex());
+        $this->drawer->setFillColor($brush->fillColor()->hex());
+        $this->drawer->setStrokeWidth($brush->strokeWidth());
     }
 
     /** @var \ImagickDraw */

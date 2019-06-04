@@ -18,10 +18,15 @@ class Rectangle implements Presentation\Slide
     {
         return $drawer->rectangle(
             $this->rect,
-            Graphic\ShapeBrush::createDefault()
+            Graphic\Brush::createDefault()
                 ->withFillColor(Graphic\Color::RGB(255, 0, 0))
                 ->withStrokeColor(Graphic\Color::RGB(0, 255, 0))
-                ->withStrokeWidth(4)
+                ->withStrokeWidth(1)
+        )->text(
+            'Hello World',
+            $this->rect->topLeft(),
+            Graphic\Font::createDefault(),
+            Graphic\Brush::createDefault()->withStrokeColor(Graphic\Color::white())
         )->getBmpData();
     }
 

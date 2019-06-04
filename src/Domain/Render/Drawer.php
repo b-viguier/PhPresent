@@ -11,7 +11,9 @@ interface Drawer
 
     public function getArea(): Geometry\Rect;
 
-    public function rectangle(Geometry\Rect $rect, Graphic\ShapeBrush $shapeBrush): self;
+    public function rectangle(Geometry\Rect $rect, Graphic\Brush $bruch): self;
+
+    public function text(string $text, Geometry\Point $position, Graphic\Font $font, Graphic\Brush $brush): self;
 
     public function getBmpData(): string;
 }
