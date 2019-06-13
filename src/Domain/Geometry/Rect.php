@@ -28,6 +28,11 @@ class Rect
         );
     }
 
+    public function size(): Size
+    {
+        return $this->size;
+    }
+
     use Pattern\PrivateConstructor;
 
     /** @var Point */

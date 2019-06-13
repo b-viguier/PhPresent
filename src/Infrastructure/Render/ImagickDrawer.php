@@ -8,16 +8,15 @@ use RevealPhp\Domain\Graphic;
 
 class ImagickDrawer implements Domain\Render\ResizeableDrawer
 {
-    public function clear(): Domain\Render\Drawer
-    {
-        $this->drawer = new \ImagickDraw();
-
-        return $this;
-    }
-
-    public function setSize(Geometry\Size $size): void
+    public function clear(Geometry\Size $size): Domain\Render\ResizeableDrawer
     {
         $this->size = $size;
+        $this->drawer = new \ImagickDraw();
+        $this->image = new \Imagick();
+        $this->image->newImage($this->size->width(), $this->size->height(), '#f00');
+        $this->image->setImageFormat('bmp');
+
+        return $this;
     }
 
     public function getArea(): Geometry\Rect
@@ -48,20 +47,36 @@ class ImagickDrawer implements Domain\Render\ResizeableDrawer
         return $this;
     }
 
+    public function image(Graphic\ImageFile $imageFile, ?Geometry\Rect $src, Geometry\Rect $dst): Domain\Render\Drawer
+    {
+        $image = new \Imagick($imageFile->path());
+        if ($src !== null) {
+            $image->cropImage($src->size()->width(), $src->size()->height(), $src->topLeft()->x(), $src->topLeft()->y());
+        }
+        $image->resizeImage($dst->size()->width(), $dst->size()->height(), \Imagick::FILTER_GAUSSIAN, false);
+
+        $this->drawer->composite(
+            \Imagick::COMPOSITE_OVER,
+            $dst->topLeft()->x(),
+            $dst->topLeft()->y(),
+            $dst->size()->width(),
+            $dst->size()->height(),
+            $image
+        );
+
+        return $this;
+    }
+
     public function getBmpData(): string
     {
-        $image = new \Imagick();
-        $image->newImage($this->size->width(), $this->size->height(), '#f00');
-        $image->setImageFormat('bmp');
-        $image->drawImage($this->drawer);
+        $this->flushDrawer();
 
-        return $image->getImageBlob();
+        return $this->image->getImageBlob();
     }
 
     public function __construct()
     {
-        $this->size = Geometry\Size::fromDimensions(640, 480);
-        $this->clear();
+        $this->clear(Geometry\Size::fromDimensions(640, 480));
     }
 
     private function applyBrush(Graphic\Brush $brush): void
@@ -71,8 +86,16 @@ class ImagickDrawer implements Domain\Render\ResizeableDrawer
         $this->drawer->setStrokeWidth($brush->strokeWidth());
     }
 
+    private function flushDrawer(): void
+    {
+        $this->image->drawImage($this->drawer);
+        $this->drawer->clear();
+    }
+
     /** @var \ImagickDraw */
     private $drawer;
+    /** @var \Imagick */
+    private $image;
     /** @var Geometry\Size */
     private $size;
 }

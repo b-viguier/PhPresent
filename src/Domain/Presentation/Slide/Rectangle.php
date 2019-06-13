@@ -9,14 +9,19 @@ use RevealPhp\Domain\Render;
 
 class Rectangle implements Presentation\Slide
 {
-    public function __construct(Geometry\Rect $rect)
+    public function __construct(Geometry\Rect $rect, Graphic\ImageFile $imageFile)
     {
         $this->rect = $rect;
+        $this->imageFile = $imageFile;
     }
 
     public function render(Render\Drawer $drawer): string
     {
-        return $drawer->rectangle(
+        return $drawer->image(
+            $this->imageFile,
+            null,
+            $drawer->getArea()
+        )->rectangle(
             $this->rect,
             Graphic\Brush::createDefault()
                 ->withFillColor(Graphic\Color::RGB(255, 0, 0))
@@ -32,4 +37,6 @@ class Rectangle implements Presentation\Slide
 
     /** @var Geometry\Rect */
     private $rect;
+    /** @var Graphic\ImageFile */
+    private $imageFile;
 }

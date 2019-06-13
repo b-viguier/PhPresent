@@ -6,5 +6,5 @@ use RevealPhp\Domain\Geometry;
 
 interface ResizeableDrawer extends Drawer
 {
-    public function setSize(Geometry\Size $size);
+    public function clear(Geometry\Size $size): self;
 }

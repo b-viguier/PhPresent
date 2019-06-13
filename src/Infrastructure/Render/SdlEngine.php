@@ -23,6 +23,7 @@ class SdlEngine implements Domain\Render\Engine
         // Events data
         $quit = false;
         $event = new \SDL_Event();
+        $currentSize = Domain\Geometry\Size::fromDimensions(640, 480);
 
         while (!$quit) {
             // Inputs polling
@@ -33,9 +34,7 @@ class SdlEngine implements Domain\Render\Engine
                         break;
                     case SDL_WINDOWEVENT:
                         if ($event->window->event === SDL_WINDOWEVENT_RESIZED) {
-                            $drawer->setSize(
-                                Domain\Geometry\Size::fromDimensions($event->window->data1, $event->window->data2)
-                            );
+                            $currentSize = Domain\Geometry\Size::fromDimensions($event->window->data1, $event->window->data2);
                         }
                         break;
                     case SDL_KEYDOWN:
@@ -56,7 +55,7 @@ class SdlEngine implements Domain\Render\Engine
             \SDL_SetRenderDrawColor($this->renderer, 95, 150, 249, 255);
             \SDL_RenderClear($this->renderer);
 
-            $drawer->clear();
+            $drawer->clear($currentSize);
             $image = $slideShow->currentImage($drawer);
             $stream = \SDL_RWFromConstMem($image, strlen($image));
             unset($image);
