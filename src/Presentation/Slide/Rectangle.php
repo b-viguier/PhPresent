@@ -15,7 +15,7 @@ class Rectangle implements Presentation\Slide
         $this->imageFile = $imageFile;
     }
 
-    public function render(Render\Drawer $drawer): string
+    public function render(Render\Drawer $drawer, Graphic\Theme $theme): string
     {
         return $drawer->image(
             $this->imageFile,
@@ -23,15 +23,12 @@ class Rectangle implements Presentation\Slide
             $drawer->getArea()
         )->rectangle(
             $this->rect,
-            Graphic\Brush::createDefault()
-                ->withFillColor(Graphic\Color::RGB(255, 0, 0))
-                ->withStrokeColor(Graphic\Color::RGB(0, 255, 0))
-                ->withStrokeWidth(1)
+            $theme->brush()
         )->text(
             'Hello World',
             $this->rect->topLeft(),
-            Graphic\Font::createDefault(),
-            Graphic\Brush::createDefault()->withStrokeColor(Graphic\Color::white())
+            $theme->font(),
+            $theme->brush()
         )->getBmpData();
     }
 

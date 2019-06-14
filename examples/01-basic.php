@@ -7,7 +7,7 @@ use RevealPhp\Geometry;
 use RevealPhp\Graphic;
 use RevealPhp\Presentation;
 
-$presentation = new Presentation\SlideShow();
+$presentation = new Presentation\SlideShow(Graphic\Theme::createDefault());
 $presentation
     ->addSlide(new Presentation\Slide\Rectangle(Geometry\Rect::fromOriginAndSize(
         Geometry\Point::fromCoordinates(10, 10),

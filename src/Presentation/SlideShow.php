@@ -7,6 +7,11 @@ use RevealPhp\Render;
 
 class SlideShow
 {
+    public function __construct(Graphic\Theme $theme)
+    {
+        $this->theme = $theme;
+    }
+
     public function addSlide(Slide $slide): self
     {
         $this->slides[] = $slide;
@@ -27,7 +32,7 @@ class SlideShow
         /** @var Slide */
         $slide = $this->slides[$this->currentIndex];
 
-        return $slide->render($drawer);
+        return $slide->render($drawer, $this->theme);
     }
 
     public function next()
@@ -44,4 +49,6 @@ class SlideShow
     private $slides = [];
     /** @var int */
     private $currentIndex = 0;
+    /** @var Graphic\Theme */
+    private $theme;
 }
