@@ -1,6 +1,6 @@
 <?php
 
-namespace RevealPhp\Infrastructure\Render;
+namespace RevealPhp\Adapter\Render;
 
 use RevealPhp\Domain;
 
