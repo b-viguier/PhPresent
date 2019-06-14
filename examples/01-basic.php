@@ -20,6 +20,6 @@ $presentation
 ;
 
 $engine = new Adapter\Render\SdlEngine();
-$drawer = new Adapter\Render\ImagickDrawer();
+$drawer = new Adapter\Graphic\ImagickDrawer();
 
 $engine->start($presentation, $drawer);

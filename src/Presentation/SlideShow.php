@@ -3,7 +3,6 @@
 namespace RevealPhp\Presentation;
 
 use RevealPhp\Graphic;
-use RevealPhp\Render;
 
 class SlideShow
 {
@@ -19,7 +18,7 @@ class SlideShow
         return $this;
     }
 
-    public function currentImage(Render\Drawer $drawer): string
+    public function currentImage(Graphic\Drawer $drawer): string
     {
         // Draw background
         $drawer->rectangle(

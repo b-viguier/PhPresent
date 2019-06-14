@@ -3,6 +3,7 @@
 namespace RevealPhp\Adapter\Render;
 
 use RevealPhp\Geometry;
+use RevealPhp\Graphic;
 use RevealPhp\Presentation;
 use RevealPhp\Render;
 
@@ -20,7 +21,7 @@ class SdlEngine implements Render\Engine
         $this->renderer = \SDL_CreateRenderer($this->window, -1, 0);
     }
 
-    public function start(Presentation\SlideShow $slideShow, Render\ResizeableDrawer $drawer)
+    public function start(Presentation\SlideShow $slideShow, Graphic\ResizeableDrawer $drawer)
     {
         // Events data
         $quit = false;

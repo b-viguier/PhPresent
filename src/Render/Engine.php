@@ -2,9 +2,10 @@
 
 namespace RevealPhp\Render;
 
+use RevealPhp\Graphic;
 use RevealPhp\Presentation;
 
 interface Engine
 {
-    public function start(Presentation\SlideShow $slideShow, ResizeableDrawer $drawer);
+    public function start(Presentation\SlideShow $slideShow, Graphic\ResizeableDrawer $drawer);
 }

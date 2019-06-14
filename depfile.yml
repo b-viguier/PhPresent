@@ -38,7 +38,6 @@ ruleset:
     - Geometry
     - Graphic
     - Pattern
-    - Render
   Render:
     - Geometry
     - Graphic

@@ -7,5 +7,5 @@ use RevealPhp\Render;
 
 interface Slide
 {
-    public function render(Render\Drawer $drawer, Graphic\Theme $theme): string;
+    public function render(Graphic\Drawer $drawer, Graphic\Theme $theme): string;
 }

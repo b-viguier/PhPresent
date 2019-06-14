@@ -1,6 +1,6 @@
 <?php
 
-namespace RevealPhp\Render;
+namespace RevealPhp\Graphic;
 
 use RevealPhp\Geometry;
 

@@ -1,14 +1,13 @@
 <?php
 
-namespace RevealPhp\Adapter\Render;
+namespace RevealPhp\Adapter\Graphic;
 
 use RevealPhp\Geometry;
 use RevealPhp\Graphic;
-use RevealPhp\Render;
 
-class ImagickDrawer implements Render\ResizeableDrawer
+class ImagickDrawer implements Graphic\ResizeableDrawer
 {
-    public function clear(Geometry\Size $size): Render\ResizeableDrawer
+    public function clear(Geometry\Size $size): Graphic\ResizeableDrawer
     {
         $this->size = $size;
         $this->drawer = new \ImagickDraw();
@@ -27,7 +26,7 @@ class ImagickDrawer implements Render\ResizeableDrawer
         );
     }
 
-    public function rectangle(Geometry\Rect $rect, Graphic\Brush $brush): Render\Drawer
+    public function rectangle(Geometry\Rect $rect, Graphic\Brush $brush): Graphic\Drawer
     {
         $this->applyBrush($brush);
         $this->drawer->rectangle($rect->topLeft()->x(), $rect->topLeft()->y(), $rect->bottomRight()->x(), $rect->bottomRight()->y());
@@ -35,7 +34,7 @@ class ImagickDrawer implements Render\ResizeableDrawer
         return $this;
     }
 
-    public function text(string $text, Geometry\Point $position, Graphic\Font $font, Graphic\Brush $brush): Render\Drawer
+    public function text(string $text, Geometry\Point $position, Graphic\Font $font, Graphic\Brush $brush): Graphic\Drawer
     {
         $this->applyBrush($brush);
 
@@ -47,7 +46,7 @@ class ImagickDrawer implements Render\ResizeableDrawer
         return $this;
     }
 
-    public function image(Graphic\ImageFile $imageFile, ?Geometry\Rect $src, Geometry\Rect $dst): Render\Drawer
+    public function image(Graphic\ImageFile $imageFile, ?Geometry\Rect $src, Geometry\Rect $dst): Graphic\Drawer
     {
         $image = new \Imagick($imageFile->path());
         if ($src !== null) {
