@@ -1,0 +1,52 @@
+paths:
+  - ./src
+exclude_files:
+  - .*test.*
+layers:
+  - name: Adapter
+    collectors:
+      - type: directory
+        regex: src/Adapter
+  - name: Geometry
+    collectors:
+      - type: directory
+        regex: src/Geometry
+  - name: Graphic
+    collectors:
+      - type: directory
+        regex: src/Graphic
+  - name: Pattern
+    collectors:
+      - type: directory
+        regex: src/Pattern
+  - name: Presentation
+    collectors:
+      - type: directory
+        regex: src/Presentation
+  - name: Render
+    collectors:
+      - type: directory
+        regex: src/Render
+ruleset:
+  Pattern: ~
+  Geometry:
+    - Pattern
+  Graphic:
+    - Geometry
+    - Pattern
+  Presentation:
+    - Geometry
+    - Graphic
+    - Pattern
+    - Render
+  Render:
+    - Geometry
+    - Graphic
+    - Pattern
+    - Presentation
+  Adapter:
+    - Geometry
+    - Graphic
+    - Pattern
+    - Presentation
+    - Render
