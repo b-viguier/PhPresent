@@ -2,9 +2,11 @@
 
 namespace RevealPhp\Adapter\Render;
 
-use RevealPhp\Domain;
+use RevealPhp\Geometry;
+use RevealPhp\Presentation;
+use RevealPhp\Render;
 
-class SdlEngine implements Domain\Render\Engine
+class SdlEngine implements Render\Engine
 {
     public function __construct()
     {
@@ -18,12 +20,12 @@ class SdlEngine implements Domain\Render\Engine
         $this->renderer = \SDL_CreateRenderer($this->window, -1, 0);
     }
 
-    public function start(Domain\Presentation\SlideShow $slideShow, Domain\Render\ResizeableDrawer $drawer)
+    public function start(Presentation\SlideShow $slideShow, Render\ResizeableDrawer $drawer)
     {
         // Events data
         $quit = false;
         $event = new \SDL_Event();
-        $currentSize = Domain\Geometry\Size::fromDimensions(640, 480);
+        $currentSize = Geometry\Size::fromDimensions(640, 480);
 
         while (!$quit) {
             // Inputs polling
@@ -34,7 +36,7 @@ class SdlEngine implements Domain\Render\Engine
                         break;
                     case SDL_WINDOWEVENT:
                         if ($event->window->event === SDL_WINDOWEVENT_RESIZED) {
-                            $currentSize = Domain\Geometry\Size::fromDimensions($event->window->data1, $event->window->data2);
+                            $currentSize = Geometry\Size::fromDimensions($event->window->data1, $event->window->data2);
                         }
                         break;
                     case SDL_KEYDOWN:

@@ -1,15 +1,15 @@
 <?php
 
-namespace RevealPhp\Domain\Graphic;
+namespace RevealPhp\Graphic;
 
-use RevealPhp\Domain\Pattern;
+use RevealPhp\Pattern;
 
 class Font
 {
     public static function createDefault(): self
     {
         $font = new self();
-        $font->fontFile = __DIR__.'/../../../assets/fonts/times-new-roman.ttf';
+        $font->fontFile = __DIR__.'/../../assets/fonts/times-new-roman.ttf';
         $font->size = 10;
 
         return $font;

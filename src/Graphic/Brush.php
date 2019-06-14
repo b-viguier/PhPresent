@@ -1,8 +1,8 @@
 <?php
 
-namespace RevealPhp\Domain\Graphic;
+namespace RevealPhp\Graphic;
 
-use RevealPhp\Domain\Pattern;
+use RevealPhp\Pattern;
 
 class Brush
 {

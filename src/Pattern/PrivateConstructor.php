@@ -1,6 +1,6 @@
 <?php
 
-namespace RevealPhp\Domain\Pattern;
+namespace RevealPhp\Pattern;
 
 trait PrivateConstructor
 {

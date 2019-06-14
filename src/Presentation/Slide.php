@@ -1,8 +1,8 @@
 <?php
 
-namespace RevealPhp\Domain\Presentation;
+namespace RevealPhp\Presentation;
 
-use RevealPhp\Domain\Render;
+use RevealPhp\Render;
 
 interface Slide
 {

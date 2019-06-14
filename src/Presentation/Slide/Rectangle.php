@@ -1,11 +1,11 @@
 <?php
 
-namespace RevealPhp\Domain\Presentation\Slide;
+namespace RevealPhp\Presentation\Slide;
 
-use RevealPhp\Domain\Geometry;
-use RevealPhp\Domain\Graphic;
-use RevealPhp\Domain\Presentation;
-use RevealPhp\Domain\Render;
+use RevealPhp\Geometry;
+use RevealPhp\Graphic;
+use RevealPhp\Presentation;
+use RevealPhp\Render;
 
 class Rectangle implements Presentation\Slide
 {

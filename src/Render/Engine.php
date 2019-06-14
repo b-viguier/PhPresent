@@ -1,8 +1,8 @@
 <?php
 
-namespace RevealPhp\Domain\Render;
+namespace RevealPhp\Render;
 
-use RevealPhp\Domain\Presentation;
+use RevealPhp\Presentation;
 
 interface Engine
 {

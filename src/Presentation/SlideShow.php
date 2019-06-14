@@ -1,9 +1,9 @@
 <?php
 
-namespace RevealPhp\Domain\Presentation;
+namespace RevealPhp\Presentation;
 
-use RevealPhp\Domain\Graphic;
-use RevealPhp\Domain\Render;
+use RevealPhp\Graphic;
+use RevealPhp\Render;
 
 class SlideShow
 {

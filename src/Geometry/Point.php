@@ -1,8 +1,8 @@
 <?php
 
-namespace RevealPhp\Domain\Geometry;
+namespace RevealPhp\Geometry;
 
-use RevealPhp\Domain\Pattern;
+use RevealPhp\Pattern;
 
 class Point
 {

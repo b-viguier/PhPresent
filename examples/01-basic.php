@@ -3,18 +3,20 @@
 require __DIR__.'/../vendor/autoload.php';
 
 use RevealPhp\Adapter;
-use RevealPhp\Domain;
+use RevealPhp\Geometry;
+use RevealPhp\Graphic;
+use RevealPhp\Presentation;
 
-$presentation = new Domain\Presentation\SlideShow();
+$presentation = new Presentation\SlideShow();
 $presentation
-    ->addSlide(new Domain\Presentation\Slide\Rectangle(Domain\Geometry\Rect::fromOriginAndSize(
-        Domain\Geometry\Point::fromCoordinates(10, 10),
-        Domain\Geometry\Size::fromDimensions(100, 100)
-    ), Domain\Graphic\ImageFile::fromPath(__DIR__.'/../assets/images/background.jpg')))
-    ->addSlide(new Domain\Presentation\Slide\Rectangle(Domain\Geometry\Rect::fromOriginAndSize(
-        Domain\Geometry\Point::fromCoordinates(50, 50),
-        Domain\Geometry\Size::fromDimensions(100, 200)
-    ), Domain\Graphic\ImageFile::fromPath(__DIR__.'/../assets/images/background.jpg')))
+    ->addSlide(new Presentation\Slide\Rectangle(Geometry\Rect::fromOriginAndSize(
+        Geometry\Point::fromCoordinates(10, 10),
+        Geometry\Size::fromDimensions(100, 100)
+    ), Graphic\ImageFile::fromPath(__DIR__.'/../assets/images/background.jpg')))
+    ->addSlide(new Presentation\Slide\Rectangle(Geometry\Rect::fromOriginAndSize(
+        Geometry\Point::fromCoordinates(50, 50),
+        Geometry\Size::fromDimensions(100, 200)
+    ), Graphic\ImageFile::fromPath(__DIR__.'/../assets/images/background.jpg')))
 ;
 
 $engine = new Adapter\Render\SdlEngine();

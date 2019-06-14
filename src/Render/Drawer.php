@@ -1,9 +1,9 @@
 <?php
 
-namespace RevealPhp\Domain\Render;
+namespace RevealPhp\Render;
 
-use RevealPhp\Domain\Geometry;
-use RevealPhp\Domain\Graphic;
+use RevealPhp\Geometry;
+use RevealPhp\Graphic;
 
 interface Drawer
 {
