@@ -21,9 +21,9 @@
     },
     "scripts": {
         "analyse": "@php ./vendor/bin/phpstan --level=max analyse src/ examples/",
-        "cs": "@php ./ci/php-cs-fixer fix --dry-run --diff",
-        "cs-fix": "@php ./ci/php-cs-fixer fix",
-        "cs-ci": "@php ./ci/php-cs-fixer fix --dry-run --using-cache=no --verbose",
+        "cs": "@php ./vendor/bin/php-cs-fixer fix --dry-run --diff",
+        "cs-fix": "@php ./vendor/bin/php-cs-fixer fix",
+        "cs-ci": "@php ./vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --verbose",
         "deps": "@php ./vendor/bin/deptrac"
     },
     "require-dev": {
