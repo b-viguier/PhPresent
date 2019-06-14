@@ -20,11 +20,11 @@
         }
     },
     "scripts": {
-        "analyse": "./vendor/bin/phpstan --level=max analyse src/ examples/",
-        "cs": "./ci/php-cs-fixer fix --dry-run --diff",
-        "cs-fix": "./ci/php-cs-fixer fix",
-        "cs-ci": "./ci/php-cs-fixer fix --dry-run --using-cache=no --verbose",
-        "deps": "./vendor/bin/deptrac"
+        "analyse": "@php ./vendor/bin/phpstan --level=max analyse src/ examples/",
+        "cs": "@php ./ci/php-cs-fixer fix --dry-run --diff",
+        "cs-fix": "@php ./ci/php-cs-fixer fix",
+        "cs-ci": "@php ./ci/php-cs-fixer fix --dry-run --using-cache=no --verbose",
+        "deps": "@php ./vendor/bin/deptrac"
     },
     "require-dev": {
         "sensiolabs-de/deptrac-shim": "^0.5.0",

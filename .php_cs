@@ -25,6 +25,7 @@ $config = new class() extends Config
             'phpdoc_summary' => false,
             'yoda_style' => false,
             'ordered_imports' => ['sort_algorithm' => 'alpha'],
+            'native_function_casing' => false, // To preserve SDL casing
         ];
         return $rules;
     }
