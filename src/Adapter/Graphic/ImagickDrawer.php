@@ -36,10 +36,13 @@ class ImagickDrawer implements Graphic\ResizeableDrawer
 
     public function text(string $text, Geometry\Point $position, Graphic\Font $font, Graphic\Brush $brush): Graphic\Drawer
     {
-        $this->applyBrush($brush);
+        $this->drawer->setStrokeColor($brush->strokeColor()->hex());
+        $this->drawer->setFillColor($brush->strokeColor()->hex());
+        $this->drawer->setStrokeWidth(1);
 
         $this->drawer->setFont($font->fontFile());
         $this->drawer->setFontSize($font->size());
+        $this->drawer->setTextAlignment($this->imagickAlignment($font));
 
         $this->drawer->annotation((int) $position->x(), (int) $position->y(), $text);
 
@@ -89,6 +92,20 @@ class ImagickDrawer implements Graphic\ResizeableDrawer
     {
         $this->image->drawImage($this->drawer);
         $this->drawer->clear();
+    }
+
+    private function imagickAlignment(Graphic\Font $font): int
+    {
+        switch ($font->alignment()) {
+            case Graphic\Font::ALIGN_LEFT:
+                return \Imagick::ALIGN_LEFT;
+            case Graphic\Font::ALIGN_RIGHT:
+                return \Imagick::ALIGN_RIGHT;
+            case Graphic\Font::ALIGN_CENTER:
+                return \Imagick::ALIGN_CENTER;
+        }
+
+        return \Imagick::ALIGN_CENTER;
     }
 
     /** @var \ImagickDraw */

@@ -33,6 +33,14 @@ class Rect
         return $this->size;
     }
 
+    public function center(): Point
+    {
+        return Point::fromCoordinates(
+            $this->origin->x() + $this->size->width() / 2,
+            $this->origin->y() + $this->size->height() / 2
+        );
+    }
+
     use Pattern\PrivateConstructor;
 
     /** @var Point */

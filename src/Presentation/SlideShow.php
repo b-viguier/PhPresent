@@ -20,14 +20,6 @@ class SlideShow
 
     public function currentImage(Graphic\Drawer $drawer): string
     {
-        // Draw background
-        $drawer->rectangle(
-            $drawer->getArea(),
-            Graphic\Brush::createDefault()
-                ->withFillColor(Graphic\Color::black())
-                ->withStrokeColor(Graphic\Color::RGB(255, 0, 0))
-        );
-
         /** @var Slide */
         $slide = $this->slides[$this->currentIndex];
 

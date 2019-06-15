@@ -24,7 +24,12 @@
         "cs": "@php ./vendor/bin/php-cs-fixer fix --dry-run --diff",
         "cs-fix": "@php ./vendor/bin/php-cs-fixer fix",
         "cs-ci": "@php ./vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --verbose",
-        "deps": "@php ./vendor/bin/deptrac"
+        "deps": "@php ./vendor/bin/deptrac",
+        "ci": [
+            "@analyse",
+            "@cs-ci",
+            "@deps"
+        ]
     },
     "require-dev": {
         "sensiolabs-de/deptrac-shim": "^0.5.0",

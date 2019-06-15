@@ -6,18 +6,26 @@ use RevealPhp\Pattern;
 
 class Font
 {
+    public const ALIGN_LEFT = 1;
+    public const ALIGN_RIGHT = 2;
+    public const ALIGN_CENTER = 3;
+
     public static function createDefault(): self
     {
-        $font = new self();
-        $font->fontFile = __DIR__.'/../../assets/fonts/times-new-roman.ttf';
-        $font->size = 10;
-
-        return $font;
+        return (new self())
+            ->withFontFile(__DIR__.'/../../assets/fonts/times-new-roman.ttf')
+            ->withSize(50)
+            ->withAlignment(self::ALIGN_CENTER)
+            ;
     }
 
-    public static function fromFile(string $filepath): self
+    public function withFontFile(string $filepath): self
     {
-        $font = self::createDefault();
+        if (!file_exists($filepath) || !is_readable($filepath)) {
+            throw new Exception\FontException("Font file [$filepath] is not readable.");
+        }
+
+        $font = clone $this;
         $font->fontFile = $filepath;
 
         return $font;
@@ -41,10 +49,33 @@ class Font
         return $this->size;
     }
 
+    public function withAlignment(int $alignmentConstant): self
+    {
+        if (
+            $alignmentConstant !== self::ALIGN_LEFT
+            && $alignmentConstant !== self::ALIGN_RIGHT
+            && $alignmentConstant !== self::ALIGN_CENTER
+        ) {
+            throw new Exception\FontException('Invalid alignment value');
+        }
+
+        $font = clone $this;
+        $font->alignment = $alignmentConstant;
+
+        return $font;
+    }
+
+    public function alignment(): int
+    {
+        return $this->alignment;
+    }
+
     use Pattern\PrivateConstructor;
 
     /** @var string */
     private $fontFile;
     /** @var float */
     private $size;
+    /** @var int */
+    private $alignment;
 }
