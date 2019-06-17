@@ -2,6 +2,7 @@
 
 namespace RevealPhp\Presentation\Template\Simple;
 
+use RevealPhp\Geometry;
 use RevealPhp\Graphic;
 use RevealPhp\Presentation;
 
@@ -12,18 +13,18 @@ class BigTitle implements Presentation\Slide
         $this->title = $title;
     }
 
-    public function render(Graphic\Drawer $drawer, Graphic\Theme $theme): string
+    public function render(Geometry\Size $size, Graphic\Drawer $drawer, Graphic\Theme $theme): Graphic\TraversableSprites
     {
-        $area = $drawer->getArea();
-
-        return $drawer->text(
+        $bitmap = $drawer->drawText(
             $this->title,
-            $area->center(),
+            Geometry\Point::fromCoordinates($size->width() / 2, $size->height() / 2),
             $theme->font()
                 ->withAlignment(Graphic\Font::ALIGN_CENTER)
-                ->withSize($area->size()->height() / 6),
+                ->withSize($size->height() / 6),
             $theme->brush()
-        )->getBmpData();
+        )->createBitmap($size);
+
+        return Graphic\Sprite::fromBitmap($bitmap, Geometry\Point::origin());
     }
 
     /** @var string */

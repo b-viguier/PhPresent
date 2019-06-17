@@ -2,10 +2,10 @@
 
 namespace RevealPhp\Presentation;
 
+use RevealPhp\Geometry;
 use RevealPhp\Graphic;
-use RevealPhp\Render;
 
 interface Slide
 {
-    public function render(Graphic\Drawer $drawer, Graphic\Theme $theme): string;
+    public function render(Geometry\Size $size, Graphic\Drawer $drawer, Graphic\Theme $theme): Graphic\TraversableSprites;
 }

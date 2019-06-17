@@ -5,28 +5,17 @@ namespace RevealPhp\Adapter\Graphic;
 use RevealPhp\Geometry;
 use RevealPhp\Graphic;
 
-class ImagickDrawer implements Graphic\ResizeableDrawer
+class ImagickDrawer implements Graphic\Drawer
 {
-    public function clear(Geometry\Size $size): Graphic\ResizeableDrawer
+    public function clear(): Graphic\Drawer
     {
-        $this->size = $size;
         $this->drawer = new \ImagickDraw();
         $this->image = new \Imagick();
-        $this->image->newImage($this->size->width(), $this->size->height(), '#f00');
-        $this->image->setImageFormat('bmp');
 
         return $this;
     }
 
-    public function getArea(): Geometry\Rect
-    {
-        return Geometry\Rect::fromOriginAndSize(
-            Geometry\Point::fromCoordinates(0, 0),
-            Geometry\Size::fromDimensions($this->size->width() - 1, $this->size->height() - 1)
-        );
-    }
-
-    public function rectangle(Geometry\Rect $rect, Graphic\Brush $brush): Graphic\Drawer
+    public function drawRectangle(Geometry\Rect $rect, Graphic\Brush $brush): Graphic\Drawer
     {
         $this->applyBrush($brush);
         $this->drawer->rectangle($rect->topLeft()->x(), $rect->topLeft()->y(), $rect->bottomRight()->x(), $rect->bottomRight()->y());
@@ -34,7 +23,7 @@ class ImagickDrawer implements Graphic\ResizeableDrawer
         return $this;
     }
 
-    public function text(string $text, Geometry\Point $position, Graphic\Font $font, Graphic\Brush $brush): Graphic\Drawer
+    public function drawText(string $text, Geometry\Point $position, Graphic\Font $font, Graphic\Brush $brush): Graphic\Drawer
     {
         $this->drawer->setStrokeColor($brush->strokeColor()->hex());
         $this->drawer->setFillColor($brush->strokeColor()->hex());
@@ -49,7 +38,7 @@ class ImagickDrawer implements Graphic\ResizeableDrawer
         return $this;
     }
 
-    public function image(Graphic\ImageFile $imageFile, ?Geometry\Rect $src, Geometry\Rect $dst): Graphic\Drawer
+    public function drawImage(Graphic\ImageFile $imageFile, ?Geometry\Rect $src, Geometry\Rect $dst): Graphic\Drawer
     {
         $image = new \Imagick($imageFile->path());
         if ($src !== null) {
@@ -69,16 +58,22 @@ class ImagickDrawer implements Graphic\ResizeableDrawer
         return $this;
     }
 
-    public function getBmpData(): string
+    public function createBitmap(Geometry\Size $size): Graphic\Bitmap
     {
-        $this->flushDrawer();
+        $this->image->newImage($size->width(), $size->height(), '#0000');
+        $this->image->setImageFormat('bmp');
 
-        return $this->image->getImageBlob();
+        $this->image->drawImage($this->drawer);
+
+        return Graphic\Bitmap::fromBmpContent(
+            $this->image->getImageBlob(),
+            $size
+        );
     }
 
     public function __construct()
     {
-        $this->clear(Geometry\Size::fromDimensions(640, 480));
+        $this->clear();
     }
 
     private function applyBrush(Graphic\Brush $brush): void
@@ -86,12 +81,6 @@ class ImagickDrawer implements Graphic\ResizeableDrawer
         $this->drawer->setStrokeColor($brush->strokeColor()->hex());
         $this->drawer->setFillColor($brush->fillColor()->hex());
         $this->drawer->setStrokeWidth($brush->strokeWidth());
-    }
-
-    private function flushDrawer(): void
-    {
-        $this->image->drawImage($this->drawer);
-        $this->drawer->clear();
     }
 
     private function imagickAlignment(Graphic\Font $font): int
@@ -112,6 +101,4 @@ class ImagickDrawer implements Graphic\ResizeableDrawer
     private $drawer;
     /** @var \Imagick */
     private $image;
-    /** @var Geometry\Size */
-    private $size;
 }

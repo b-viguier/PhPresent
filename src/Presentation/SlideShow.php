@@ -2,13 +2,15 @@
 
 namespace RevealPhp\Presentation;
 
+use RevealPhp\Geometry;
 use RevealPhp\Graphic;
 
 class SlideShow
 {
-    public function __construct(Graphic\Theme $theme)
+    public function __construct(Graphic\Theme $theme, Slide $backgroundSlide)
     {
         $this->theme = $theme;
+        $this->backgroundSlide = $backgroundSlide;
     }
 
     public function addSlide(Slide $slide): self
@@ -18,12 +20,16 @@ class SlideShow
         return $this;
     }
 
-    public function currentImage(Graphic\Drawer $drawer): string
+    public function currentSprites(Geometry\Size $size, Graphic\Drawer $drawer): Graphic\TraversableSprites
     {
+        $stack = new Graphic\SpriteStack();
+        $stack->push($this->backgroundSlide->render($size, $drawer, $this->theme));
         /** @var Slide */
         $slide = $this->slides[$this->currentIndex];
 
-        return $slide->render($drawer, $this->theme);
+        $stack->push($slide->render($size, $drawer, $this->theme));
+
+        return $stack;
     }
 
     public function next()
@@ -42,4 +48,6 @@ class SlideShow
     private $currentIndex = 0;
     /** @var Graphic\Theme */
     private $theme;
+    /** @var Slide */
+    private $backgroundSlide;
 }

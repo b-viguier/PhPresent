@@ -2,6 +2,7 @@
 
 namespace RevealPhp\Presentation\Template\Simple;
 
+use RevealPhp\Geometry;
 use RevealPhp\Graphic;
 use RevealPhp\Presentation;
 
@@ -12,14 +13,23 @@ class FullscreenColor implements Presentation\Slide
         $this->color = $color;
     }
 
-    public function render(Graphic\Drawer $drawer, Graphic\Theme $theme): string
+    public function render(Geometry\Size $size, Graphic\Drawer $drawer, Graphic\Theme $theme): Graphic\TraversableSprites
     {
-        return $drawer->rectangle(
-            $drawer->getArea(),
+        $origin = Geometry\Point::origin();
+        $bitmap = $drawer->drawRectangle(
+            Geometry\Rect::fromOriginAndSize(
+                $origin,
+                $size
+            ),
             $theme->brush()
                 ->withFillColor($this->color)
                 ->withStrokeColor($this->color)
-        )->getBmpData();
+        )->createBitmap($size);
+
+        return Graphic\Sprite::fromBitmap(
+            $bitmap,
+            $origin
+        );
     }
 
     /** @var Graphic\Color */

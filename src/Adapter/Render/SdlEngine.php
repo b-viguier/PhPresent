@@ -21,7 +21,7 @@ class SdlEngine implements Render\Engine
         $this->renderer = \SDL_CreateRenderer($this->window, -1, 0);
     }
 
-    public function start(Presentation\SlideShow $slideShow, Graphic\ResizeableDrawer $drawer)
+    public function start(Presentation\SlideShow $slideShow, Graphic\Drawer $drawer)
     {
         // Events data
         $quit = false;
@@ -58,20 +58,31 @@ class SdlEngine implements Render\Engine
             \SDL_SetRenderDrawColor($this->renderer, 95, 150, 249, 255);
             \SDL_RenderClear($this->renderer);
 
-            $drawer->clear($currentSize);
-            $image = $slideShow->currentImage($drawer);
-            $stream = \SDL_RWFromConstMem($image, strlen($image));
-            unset($image);
-            $surface = \SDL_LoadBMP_RW($stream, 1/*free*/);
-            $texture = \SDL_CreateTextureFromSurface($this->renderer, $surface);
-            \SDL_FreeSurface($surface);
+            $drawer->clear();
+            $sprites = $slideShow->currentSprites($currentSize, $drawer);
+            /** @var Graphic\Sprite $sprite */
+            foreach ($sprites->iterate() as $sprite) {
+                $image = $sprite->bitmap()->content();
+                $stream = \SDL_RWFromConstMem($image, strlen($image));
+                unset($image);
+                $surface = \SDL_LoadBMP_RW($stream, 1/*free*/);
+                $texture = \SDL_CreateTextureFromSurface($this->renderer, $surface);
+                \SDL_FreeSurface($surface);
 
-            \SDL_RenderCopy(
-                $this->renderer,
-                $texture,
-                null,
-                null
-            );
+                $dstRect = new \SDL_Rect(
+                    (int) $sprite->position()->x(),
+                    (int) $sprite->position()->y(),
+                    (int) $sprite->bitmap()->size()->width(),
+                    (int) $sprite->bitmap()->size()->height()
+                );
+
+                \SDL_RenderCopy(
+                    $this->renderer,
+                    $texture,
+                    null,
+                    $dstRect
+                );
+            }
 
             // Screen refresh
             \SDL_RenderPresent($this->renderer);

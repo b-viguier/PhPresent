@@ -6,13 +6,13 @@ use RevealPhp\Geometry;
 
 interface Drawer
 {
-    public function getArea(): Geometry\Rect;
+    public function clear(): self;
 
-    public function rectangle(Geometry\Rect $rect, Brush $bruch): self;
+    public function drawRectangle(Geometry\Rect $rect, Brush $brush): self;
 
-    public function text(string $text, Geometry\Point $position, Font $font, Brush $brush): self;
+    public function drawText(string $text, Geometry\Point $position, Font $font, Brush $brush): self;
 
-    public function image(ImageFile $imageFile, ?Geometry\Rect $src, Geometry\Rect $dst): self;
+    public function drawImage(ImageFile $imageFile, ?Geometry\Rect $src, Geometry\Rect $dst): self;
 
-    public function getBmpData(): string;
+    public function createBitmap(Geometry\Size $size): Bitmap;
 }

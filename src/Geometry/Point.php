@@ -6,6 +6,15 @@ use RevealPhp\Pattern;
 
 class Point
 {
+    public static function origin(): self
+    {
+        $point = new self();
+        $point->x = 0;
+        $point->y = 0;
+
+        return $point;
+    }
+
     public static function fromCoordinates(float $x, float $y): self
     {
         $point = new self();
