@@ -34,12 +34,17 @@ class SlideShow
 
     public function next()
     {
-        ++$this->currentIndex;
+        $this->currentIndex = min($this->currentIndex + 1, count($this->slides) - 1);
     }
 
-    public function isFinished(): bool
+    public function previous()
     {
-        return $this->currentIndex >= count($this->slides);
+        $this->currentIndex = max($this->currentIndex - 1, 0);
+    }
+
+    public function isLastSlide(): bool
+    {
+        return $this->currentIndex == count($this->slides) - 1;
     }
 
     /** @var array<Slide> */

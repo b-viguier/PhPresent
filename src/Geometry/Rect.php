@@ -15,6 +15,15 @@ class Rect
         return $rect;
     }
 
+    public static function fromSize(Size $size): self
+    {
+        $rect = new self();
+        $rect->origin = Point::origin();
+        $rect->size = $size;
+
+        return $rect;
+    }
+
     public static function fromOppositeCorners(Point $corner1, Point $corner2): self
     {
         if ($corner1->x() > $corner2->x()) {
