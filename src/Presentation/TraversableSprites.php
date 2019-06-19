@@ -2,8 +2,8 @@
 
 namespace RevealPhp\Presentation;
 
-interface TraversableSprites
+interface TraversableSprites extends \IteratorAggregate
 {
-    /** @return iterable<Sprite> */
-    public function iterate(): iterable;
+    /** @return \Traversable<Sprite> */
+    public function getIterator(): \Traversable;
 }

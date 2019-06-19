@@ -11,10 +11,10 @@ class SpriteStack implements TraversableSprites
         return $this;
     }
 
-    public function iterate(): iterable
+    public function getIterator(): \Traversable
     {
         foreach ($this->children as $traversableSpriteList) {
-            yield from $traversableSpriteList->iterate();
+            yield from $traversableSpriteList->getIterator();
         }
     }
 

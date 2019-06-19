@@ -72,14 +72,14 @@ class SdlEngine implements Render\Engine
             \SDL_RenderClear($this->renderer);
 
             $drawer->clear();
-            $stack = new Presentation\SpriteStack();
-            $stack->push($slideShow->currentSprites($currentSize, $drawer));
+            $spriteStack = new Presentation\SpriteStack();
+            $spriteStack->push($slideShow->currentSprites($currentSize, $drawer));
             if ($helpSprite !== null) {
-                $stack->push($helpSprite);
+                $spriteStack->push($helpSprite);
             }
 
             /** @var Presentation\Sprite $sprite */
-            foreach ($stack->iterate() as $sprite) {
+            foreach ($spriteStack as $sprite) {
                 $image = $sprite->bitmap()->content();
                 $stream = \SDL_RWFromConstMem($image, strlen($image));
                 unset($image);

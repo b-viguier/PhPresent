@@ -29,7 +29,7 @@ class Sprite implements TraversableSprites
         return $this->position;
     }
 
-    public function iterate(): iterable
+    public function getIterator(): \Traversable
     {
         yield $this;
     }
