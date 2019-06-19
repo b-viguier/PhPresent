@@ -49,22 +49,6 @@ class Rect
         return $rect;
     }
 
-    public static function bounding(Rect $box1, Rect $box2): self
-    {
-        $xMin = min($box1->topLeft()->x(), $box2->topLeft()->x());
-        $yMin = min($box1->topLeft()->y(), $box2->topLeft()->y());
-        $bottomRight1 = $box1->bottomRight();
-        $bottomRight2 = $box2->bottomRight();
-        $xMax = max($bottomRight1->x(), $bottomRight2->x());
-        $yMax = max($bottomRight1->y(), $bottomRight2->y());
-
-        $rect = new self();
-        $rect->origin = Point::fromCoordinates($xMin, $yMin);
-        $rect->size = Size::fromDimensions($xMax - $xMin, $yMax - $yMin);
-
-        return $rect;
-    }
-
     public function topLeft(): Point
     {
         return $this->origin;
