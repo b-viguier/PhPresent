@@ -1,6 +1,6 @@
 <?php
 
-namespace RevealPhp\Graphic;
+namespace RevealPhp\Presentation;
 
 interface TraversableSprites
 {

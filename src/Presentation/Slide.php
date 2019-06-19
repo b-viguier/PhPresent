@@ -7,5 +7,5 @@ use RevealPhp\Graphic;
 
 interface Slide
 {
-    public function render(Geometry\Size $size, Graphic\Drawer $drawer, Graphic\Theme $theme): Graphic\TraversableSprites;
+    public function render(Geometry\Size $size, Graphic\Drawer $drawer, Graphic\Theme $theme): TraversableSprites;
 }

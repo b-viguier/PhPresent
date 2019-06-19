@@ -20,9 +20,9 @@ class SlideShow
         return $this;
     }
 
-    public function currentSprites(Geometry\Size $size, Graphic\Drawer $drawer): Graphic\TraversableSprites
+    public function currentSprites(Geometry\Size $size, Graphic\Drawer $drawer): TraversableSprites
     {
-        $stack = new Graphic\SpriteStack();
+        $stack = new SpriteStack();
         $stack->push($this->backgroundSlide->render($size, $drawer, $this->theme));
         /** @var Slide */
         $slide = $this->slides[$this->currentIndex];

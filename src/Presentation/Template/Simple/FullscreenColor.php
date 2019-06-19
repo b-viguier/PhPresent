@@ -13,7 +13,7 @@ class FullscreenColor implements Presentation\Slide
         $this->color = $color;
     }
 
-    public function render(Geometry\Size $size, Graphic\Drawer $drawer, Graphic\Theme $theme): Graphic\TraversableSprites
+    public function render(Geometry\Size $size, Graphic\Drawer $drawer, Graphic\Theme $theme): Presentation\TraversableSprites
     {
         $origin = Geometry\Point::origin();
         $bitmap = $drawer->drawRectangle(
@@ -26,7 +26,7 @@ class FullscreenColor implements Presentation\Slide
                 ->withStrokeColor($this->color)
         )->createBitmap($size);
 
-        return Graphic\Sprite::fromBitmap(
+        return Presentation\Sprite::fromBitmap(
             $bitmap,
             $origin
         );

@@ -28,7 +28,7 @@ class SdlEngine implements Render\Engine
         $event = new \SDL_Event();
         $currentSize = Geometry\Size::fromDimensions(640, 480);
 
-        /** @var ?Graphic\Sprite $helpSprite */
+        /** @var ?Presentation\Sprite $helpSprite */
         $helpSprite = null;
 
         while (!$quit) {
@@ -72,13 +72,13 @@ class SdlEngine implements Render\Engine
             \SDL_RenderClear($this->renderer);
 
             $drawer->clear();
-            $stack = new Graphic\SpriteStack();
+            $stack = new Presentation\SpriteStack();
             $stack->push($slideShow->currentSprites($currentSize, $drawer));
             if ($helpSprite !== null) {
                 $stack->push($helpSprite);
             }
 
-            /** @var Graphic\Sprite $sprite */
+            /** @var Presentation\Sprite $sprite */
             foreach ($stack->iterate() as $sprite) {
                 $image = $sprite->bitmap()->content();
                 $stream = \SDL_RWFromConstMem($image, strlen($image));
@@ -109,11 +109,11 @@ class SdlEngine implements Render\Engine
         echo PHP_EOL;
     }
 
-    private function helpSprite(Geometry\Size $size, Graphic\Drawer $drawer): Graphic\TraversableSprites
+    private function helpSprite(Geometry\Size $size, Graphic\Drawer $drawer): Presentation\TraversableSprites
     {
         $drawer->clear();
 
-        return Graphic\Sprite::fromBitmap(
+        return Presentation\Sprite::fromBitmap(
             $drawer->drawRectangle(
                 $screenArea = Geometry\Rect::fromSize($size),
                 Graphic\Brush::createDefault()

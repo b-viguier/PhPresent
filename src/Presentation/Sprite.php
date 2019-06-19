@@ -1,15 +1,16 @@
 <?php
 
-namespace RevealPhp\Graphic;
+namespace RevealPhp\Presentation;
 
 use RevealPhp\Geometry;
+use RevealPhp\Graphic;
 use RevealPhp\Pattern;
 
 class Sprite implements TraversableSprites
 {
     use Pattern\PrivateConstructor;
 
-    public static function fromBitmap(Bitmap $bitmap, Geometry\Point $position): self
+    public static function fromBitmap(Graphic\Bitmap $bitmap, Geometry\Point $position): self
     {
         $sprite = new self();
         $sprite->bitmap = $bitmap;
@@ -18,7 +19,7 @@ class Sprite implements TraversableSprites
         return $sprite;
     }
 
-    public function bitmap(): Bitmap
+    public function bitmap(): Graphic\Bitmap
     {
         return $this->bitmap;
     }
@@ -33,7 +34,7 @@ class Sprite implements TraversableSprites
         yield $this;
     }
 
-    /** @var Bitmap */
+    /** @var Graphic\Bitmap */
     private $bitmap;
     /** @var Geometry\Point */
     private $position;

@@ -13,7 +13,7 @@ class BigTitle implements Presentation\Slide
         $this->title = $title;
     }
 
-    public function render(Geometry\Size $size, Graphic\Drawer $drawer, Graphic\Theme $theme): Graphic\TraversableSprites
+    public function render(Geometry\Size $size, Graphic\Drawer $drawer, Graphic\Theme $theme): Presentation\TraversableSprites
     {
         $bitmap = $drawer->drawText(
             $this->title,
@@ -24,7 +24,7 @@ class BigTitle implements Presentation\Slide
             $theme->brush()
         )->createBitmap($size);
 
-        return Graphic\Sprite::fromBitmap($bitmap, Geometry\Point::origin());
+        return Presentation\Sprite::fromBitmap($bitmap, Geometry\Point::origin());
     }
 
     /** @var string */
