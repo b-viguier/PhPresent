@@ -20,19 +20,20 @@ class BigTitle implements Presentation\Slide
             ->withSize($size->height() / 6);
 
         $textSize = $drawer->textDimensions($this->title, $font);
-        $position = Geometry\Point::fromCoordinates(
+
+        $bitmap = $drawer->drawText(
+            $this->title,
+            Geometry\Point::origin(),
+            $font,
+            $theme->brush()
+        )->createBitmap($textSize);
+
+        $spritePosition = Geometry\Point::fromCoordinates(
             ($size->width() - $textSize->width()) / 2,
             ($size->height() - $textSize->height()) / 2
         );
 
-        $bitmap = $drawer->drawText(
-            $this->title,
-            $position,
-            $font,
-            $theme->brush()
-        )->createBitmap($size);
-
-        return Presentation\Sprite::fromBitmap($bitmap, Geometry\Point::origin());
+        return Presentation\Sprite::fromBitmap($bitmap, $spritePosition);
     }
 
     /** @var string */
