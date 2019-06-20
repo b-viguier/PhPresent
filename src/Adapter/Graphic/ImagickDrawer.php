@@ -4,6 +4,8 @@ namespace RevealPhp\Adapter\Graphic;
 
 use RevealPhp\Geometry;
 use RevealPhp\Graphic;
+use RevealPhp\Graphic\Font;
+use RevealPhp\Graphic\Text;
 
 class ImagickDrawer implements Graphic\Drawer
 {
@@ -11,6 +13,9 @@ class ImagickDrawer implements Graphic\Drawer
     {
         $this->drawer = new \ImagickDraw();
         $this->image = new \Imagick();
+
+        $this->drawer->setTextAntialias(true);
+        $this->drawer->setStrokeAntialias(true);
 
         return $this;
     }
@@ -23,19 +28,53 @@ class ImagickDrawer implements Graphic\Drawer
         return $this;
     }
 
-    public function drawText(string $text, Geometry\Point $position, Graphic\Font $font, Graphic\Brush $brush): Graphic\Drawer
+    public function drawText(string $text, Geometry\Point $topLeft, Graphic\Font $font, Graphic\Brush $brush): Graphic\Drawer
     {
-        $this->drawer->setStrokeColor($brush->strokeColor()->hex());
-        $this->drawer->setFillColor($brush->strokeColor()->hex());
-        $this->drawer->setStrokeWidth(1);
+        $this->applyFont($font);
+        $this->applyBrush($brush);
 
-        $this->drawer->setFont($font->fontFile());
-        $this->drawer->setFontSize($font->size());
-        $this->drawer->setTextAlignment($this->imagickAlignment($font));
+        // textPosition must be on the text base line,
+        // its column depends of alignment.
+        $metrics = $this->image->queryFontMetrics($this->drawer, $text);
+        switch ($this->drawer->getTextAlignment()) {
+            case \Imagick::ALIGN_LEFT:
+                $textPosition = Geometry\Point::fromCoordinates(
+                    $topLeft->x(),
+                    $topLeft->y() + $metrics['ascender']
+                );
+                break;
+            case \Imagick::ALIGN_CENTER:
+                $textPosition = Geometry\Point::fromCoordinates(
+                    $topLeft->x() + $metrics['textWidth'] / 2,
+                    $topLeft->y() + $metrics['ascender']
+                );
+                break;
+            case \Imagick::ALIGN_RIGHT:
+                $textPosition = Geometry\Point::fromCoordinates(
+                    $topLeft->x() + $metrics['textWidth'],
+                    $topLeft->y() + $metrics['ascender']
+                );
+                break;
+            default:
+                $textPosition = Geometry\Point::origin();
+        }
 
-        $this->drawer->annotation((int) $position->x(), (int) $position->y(), $text);
+        $this->drawer->annotation((int) $textPosition->x(), (int) $textPosition->y(), $text);
 
         return $this;
+    }
+
+    public function textDimensions(string $text, Font $font): Geometry\Size
+    {
+        $this->drawer->push();
+        $this->applyFont($font);
+        $metrics = $this->image->queryFontMetrics($this->drawer, $text);
+        $this->drawer->pop();
+
+        return Geometry\Size::fromDimensions(
+            $metrics['textWidth'],
+            $metrics['textHeight']
+        );
     }
 
     public function drawImage(Graphic\ImageFile $imageFile, ?Geometry\Rect $src, Geometry\Rect $dst): Graphic\Drawer
@@ -81,6 +120,13 @@ class ImagickDrawer implements Graphic\Drawer
         $this->drawer->setStrokeColor($brush->strokeColor()->hex());
         $this->drawer->setFillColor($brush->fillColor()->hex());
         $this->drawer->setStrokeWidth($brush->strokeWidth());
+    }
+
+    private function applyFont(Graphic\Font $font): void
+    {
+        $this->drawer->setFont($font->fontFile());
+        $this->drawer->setFontSize($font->size());
+        $this->drawer->setTextAlignment($this->imagickAlignment($font));
     }
 
     private function imagickAlignment(Graphic\Font $font): int

@@ -11,9 +11,9 @@ $presentation = new Presentation\SlideShow(
     new Presentation\Template\Simple\FullscreenColor(Graphic\Color::white())
 );
 $presentation
-    ->addSlide(new Presentation\Template\Simple\BigTitle('Hello World'))
+    ->addSlide(new Presentation\Template\Simple\BigTitle("Hello\nWorld!"))
     ->addSlide(new Presentation\Template\Simple\FullscreenColor(Graphic\Color::black()))
-    ->addSlide(new Presentation\Template\Simple\BigTitle('Bye World'))
+    ->addSlide(new Presentation\Template\Simple\BigTitle("Bye\nWorld!"))
 ;
 
 $engine = new Adapter\Render\SdlEngine();

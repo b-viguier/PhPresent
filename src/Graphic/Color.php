@@ -27,6 +27,11 @@ class Color
         return self::RGB(255, 255, 255);
     }
 
+    public static function none(): self
+    {
+        return self::RGB(0, 0, 0, 0);
+    }
+
     /**
      * Pattern: #RRGGBBAA
      */
