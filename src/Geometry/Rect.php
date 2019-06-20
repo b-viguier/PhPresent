@@ -6,10 +6,10 @@ use RevealPhp\Pattern;
 
 class Rect
 {
-    public static function fromOriginAndSize(Point $origin, Size $size): self
+    public static function fromTopLeftAndSize(Point $topLeft, Size $size): self
     {
         $rect = new self();
-        $rect->origin = $origin;
+        $rect->topLeft = $topLeft;
         $rect->size = $size;
 
         return $rect;
@@ -18,7 +18,7 @@ class Rect
     public static function fromSize(Size $size): self
     {
         $rect = new self();
-        $rect->origin = Point::origin();
+        $rect->topLeft = Point::origin();
         $rect->size = $size;
 
         return $rect;
@@ -43,7 +43,7 @@ class Rect
         }
 
         $rect = new self();
-        $rect->origin = Point::fromCoordinates($xMin, $yMin);
+        $rect->topLeft = Point::fromCoordinates($xMin, $yMin);
         $rect->size = Size::fromDimensions($xMax - $xMin, $yMax - $yMin);
 
         return $rect;
@@ -51,14 +51,14 @@ class Rect
 
     public function topLeft(): Point
     {
-        return $this->origin;
+        return $this->topLeft;
     }
 
     public function bottomRight(): Point
     {
         return Point::fromCoordinates(
-            $this->origin->x() + $this->size->width(),
-            $this->origin->y() + $this->size->height()
+            $this->topLeft->x() + $this->size->width(),
+            $this->topLeft->y() + $this->size->height()
         );
     }
 
@@ -70,15 +70,15 @@ class Rect
     public function center(): Point
     {
         return Point::fromCoordinates(
-            $this->origin->x() + $this->size->width() / 2,
-            $this->origin->y() + $this->size->height() / 2
+            $this->topLeft->x() + $this->size->width() / 2,
+            $this->topLeft->y() + $this->size->height() / 2
         );
     }
 
     use Pattern\PrivateConstructor;
 
     /** @var Point */
-    private $origin;
+    private $topLeft;
     /** @var Size */
     private $size;
 }

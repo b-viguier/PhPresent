@@ -17,7 +17,7 @@ class FullscreenColor implements Presentation\Slide
     {
         $origin = Geometry\Point::origin();
         $bitmap = $drawer->drawRectangle(
-            Geometry\Rect::fromOriginAndSize(
+            Geometry\Rect::fromTopLeftAndSize(
                 $origin,
                 $size
             ),

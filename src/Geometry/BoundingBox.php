@@ -44,7 +44,7 @@ class BoundingBox
 
     public function toRect(): Rect
     {
-        return Rect::fromOriginAndSize(
+        return Rect::fromTopLeftAndSize(
             Point::fromCoordinates($this->left, $this->top),
             Size::fromDimensions($this->right - $this->left, $this->bottom - $this->top)
         );
