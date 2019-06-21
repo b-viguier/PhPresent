@@ -24,8 +24,7 @@ class BigTitle implements Presentation\Slide
         $bitmap = $drawer->drawText(
             $this->title,
             Geometry\Point::origin(),
-            $font,
-            $theme->brush()
+            $font
         )->createBitmap($textSize);
 
         $spritePosition = Geometry\Point::fromCoordinates(

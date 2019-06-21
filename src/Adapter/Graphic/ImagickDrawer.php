@@ -28,10 +28,10 @@ class ImagickDrawer implements Graphic\Drawer
         return $this;
     }
 
-    public function drawText(string $text, Geometry\Point $topLeft, Graphic\Font $font, Graphic\Brush $brush): Graphic\Drawer
+    public function drawText(string $text, Geometry\Point $topLeft, Graphic\Font $font): Graphic\Drawer
     {
         $this->applyFont($font);
-        $this->applyBrush($brush);
+        $this->applyBrush($font->brush());
 
         // textPosition must be on the text base line,
         // its column depends of alignment.

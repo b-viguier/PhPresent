@@ -16,6 +16,7 @@ class Font
             ->withFontFile(__DIR__.'/../../assets/fonts/times-new-roman.ttf')
             ->withSize(50)
             ->withAlignment(self::ALIGN_CENTER)
+            ->withBrush(Brush::createFilled(Color::black()))
             ;
     }
 
@@ -70,6 +71,19 @@ class Font
         return $this->alignment;
     }
 
+    public function withBrush(Brush $brush): self
+    {
+        $font = clone $this;
+        $font->brush = $brush;
+
+        return $font;
+    }
+
+    public function brush(): Brush
+    {
+        return $this->brush;
+    }
+
     use Pattern\PrivateConstructor;
 
     /** @var string */
@@ -78,4 +92,6 @@ class Font
     private $size;
     /** @var int */
     private $alignment;
+    /** @var Brush */
+    private $brush;
 }

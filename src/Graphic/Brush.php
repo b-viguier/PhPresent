@@ -14,6 +14,14 @@ class Brush
             ->withStrokeWidth(1);
     }
 
+    public static function createFilled(Color $color): self
+    {
+        return (new self())
+            ->withFillColor($color)
+            ->withStrokeColor($color)
+            ->withStrokeWidth(1);
+    }
+
     public function withStrokeWidth(int $width): self
     {
         $brush = clone $this;

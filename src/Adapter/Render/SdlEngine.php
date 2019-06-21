@@ -120,10 +120,10 @@ class SdlEngine implements Render\Engine
                     ->withFillColor(Graphic\Color::RGB(10, 10, 10, 220))
             )->drawText(
                 "Help\nq : Quit\n->/space : Next\n<- : Previous",
-                $screenArea->center(),
-                Graphic\Font::createDefault()->withAlignment(Graphic\Font::ALIGN_CENTER),
-                Graphic\Brush::createDefault()
-                    ->withStrokeColor(Graphic\Color::RGB(250, 220, 0))
+                $screenArea->topLeft(),
+                Graphic\Font::createDefault()
+                    ->withAlignment(Graphic\Font::ALIGN_CENTER)
+                    ->withBrush(Graphic\Brush::createFilled(Graphic\Color::RGB(250, 220, 0)))
             )->createBitmap($size),
             Geometry\Point::origin()
         );
