@@ -119,11 +119,12 @@ class SdlEngine implements Render\Engine
                 Graphic\Brush::createDefault()
                     ->withFillColor(Graphic\Color::RGB(10, 10, 10, 220))
             )->drawText(
-                "Help\nq : Quit\n->/space : Next\n<- : Previous",
-                $screenArea->topLeft(),
-                Graphic\Font::createDefault()
-                    ->withAlignment(Graphic\Font::ALIGN_CENTER)
-                    ->withBrush(Graphic\Brush::createFilled(Graphic\Color::RGB(250, 220, 0)))
+                $drawer->createText(
+                    "Help\nq : Quit\n->/space : Next\n<- : Previous",
+                    Graphic\Font::createDefault()
+                        ->withAlignment(Graphic\Font::ALIGN_CENTER)
+                        ->withBrush(Graphic\Brush::createFilled(Graphic\Color::RGB(250, 220, 0)))
+                )
             )->createBitmap($size),
             Geometry\Point::origin()
         );

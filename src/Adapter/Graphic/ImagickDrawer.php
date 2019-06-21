@@ -4,8 +4,6 @@ namespace RevealPhp\Adapter\Graphic;
 
 use RevealPhp\Geometry;
 use RevealPhp\Graphic;
-use RevealPhp\Graphic\Font;
-use RevealPhp\Graphic\Text;
 
 class ImagickDrawer implements Graphic\Drawer
 {
@@ -28,53 +26,60 @@ class ImagickDrawer implements Graphic\Drawer
         return $this;
     }
 
-    public function drawText(string $text, Geometry\Point $topLeft, Graphic\Font $font): Graphic\Drawer
+    public function drawText(Graphic\Text $text): Graphic\Drawer
     {
-        $this->applyFont($font);
-        $this->applyBrush($font->brush());
+        $this->applyFont($text->font());
+        $this->applyBrush($text->font()->brush());
 
-        // textPosition must be on the text base line,
-        // its column depends of alignment.
-        $metrics = $this->image->queryFontMetrics($this->drawer, $text);
-        switch ($this->drawer->getTextAlignment()) {
-            case \Imagick::ALIGN_LEFT:
-                $textPosition = Geometry\Point::fromCoordinates(
-                    $topLeft->x(),
-                    $topLeft->y() + $metrics['ascender']
-                );
-                break;
-            case \Imagick::ALIGN_CENTER:
-                $textPosition = Geometry\Point::fromCoordinates(
-                    $topLeft->x() + $metrics['textWidth'] / 2,
-                    $topLeft->y() + $metrics['ascender']
-                );
-                break;
-            case \Imagick::ALIGN_RIGHT:
-                $textPosition = Geometry\Point::fromCoordinates(
-                    $topLeft->x() + $metrics['textWidth'],
-                    $topLeft->y() + $metrics['ascender']
-                );
-                break;
-            default:
-                $textPosition = Geometry\Point::origin();
-        }
-
-        $this->drawer->annotation((int) $textPosition->x(), (int) $textPosition->y(), $text);
+        $this->drawer->annotation((int) $text->refPoint()->x(), (int) $text->refPoint()->y(), $text->content());
 
         return $this;
     }
 
-    public function textDimensions(string $text, Font $font): Geometry\Size
+    public function createText(string $text, Graphic\Font $font): Graphic\Text
     {
         $this->drawer->push();
         $this->applyFont($font);
         $metrics = $this->image->queryFontMetrics($this->drawer, $text);
         $this->drawer->pop();
 
-        return Geometry\Size::fromDimensions(
-            $metrics['textWidth'],
-            $metrics['textHeight']
-        );
+        return new class($text, $font, $metrics) extends Graphic\Text {
+            public function __construct(string $text, Graphic\Font $font, array $metrics)
+            {
+                // Assuming topLeft is on (0,0), where should text be traced?
+                switch ($font->alignment()) {
+                    case Graphic\Font::ALIGN_LEFT:
+                        $textPosition = Geometry\Point::fromCoordinates(
+                            0,
+                            $metrics['ascender']
+                        );
+                        break;
+                    case Graphic\Font::ALIGN_CENTER:
+                        $textPosition = Geometry\Point::fromCoordinates(
+                            $metrics['textWidth'] / 2,
+                            $metrics['ascender']
+                        );
+                        break;
+                    case Graphic\Font::ALIGN_RIGHT:
+                        $textPosition = Geometry\Point::fromCoordinates(
+                            $metrics['textWidth'],
+                            $metrics['ascender']
+                        );
+                        break;
+                    default:
+                        $textPosition = Geometry\Point::origin();
+                }
+
+                parent::__construct(
+                    $text,
+                    $font,
+                    Geometry\Rect::fromSize(
+                        Geometry\Size::fromDimensions($metrics['textWidth'], $metrics['textHeight'])
+                    ),
+                    $textPosition
+                );
+            }
+        };
     }
 
     public function drawImage(Graphic\ImageFile $imageFile, ?Geometry\Rect $src, Geometry\Rect $dst): Graphic\Drawer

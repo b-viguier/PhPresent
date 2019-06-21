@@ -19,17 +19,13 @@ class BigTitle implements Presentation\Slide
             ->withAlignment(Graphic\Font::ALIGN_CENTER)
             ->withSize($size->height() / 6);
 
-        $textSize = $drawer->textDimensions($this->title, $font);
-
-        $bitmap = $drawer->drawText(
-            $this->title,
-            Geometry\Point::origin(),
-            $font
-        )->createBitmap($textSize);
+        $text = $drawer->createText($this->title, $font);
+        $bitmap = $drawer->drawText($text)
+            ->createBitmap($text->area()->size());
 
         $spritePosition = Geometry\Point::fromCoordinates(
-            ($size->width() - $textSize->width()) / 2,
-            ($size->height() - $textSize->height()) / 2
+            ($size->width() - $text->area()->size()->width()) / 2,
+            ($size->height() - $text->area()->size()->height()) / 2
         );
 
         return Presentation\Sprite::fromBitmap($bitmap, $spritePosition);

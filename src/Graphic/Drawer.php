@@ -10,11 +10,11 @@ interface Drawer
 
     public function drawRectangle(Geometry\Rect $rect, Brush $brush): self;
 
-    public function drawText(string $text, Geometry\Point $topLeft, Font $font): self;
+    public function drawText(Text $text): self;
 
     public function drawImage(ImageFile $imageFile, ?Geometry\Rect $src, Geometry\Rect $dst): self;
 
     public function createBitmap(Geometry\Size $size): Bitmap;
 
-    public function textDimensions(string $text, Font $font): Geometry\Size;
+    public function createText(string $text, Font $font): Text;
 }
