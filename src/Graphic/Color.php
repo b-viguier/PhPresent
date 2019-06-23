@@ -32,6 +32,21 @@ class Color
         return self::RGB(0, 0, 0, 0);
     }
 
+    public static function red(): self
+    {
+        return self::RGB(255, 0, 0);
+    }
+
+    public static function green(): self
+    {
+        return self::RGB(0, 255, 0);
+    }
+
+    public static function blue(): self
+    {
+        return self::RGB(0, 0, 255);
+    }
+
     /**
      * Pattern: #RRGGBBAA
      */
