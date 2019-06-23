@@ -71,7 +71,6 @@ class SdlEngine implements Render\Engine
             \SDL_SetRenderDrawColor($this->renderer, 95, 150, 249, 255);
             \SDL_RenderClear($this->renderer);
 
-            $drawer->clear();
             $spriteStack = new Presentation\SpriteStack();
             $spriteStack->push($slideShow->currentSprites($currentSize, $drawer));
             if ($helpSprite !== null) {
@@ -116,8 +115,7 @@ class SdlEngine implements Render\Engine
         return Presentation\Sprite::fromBitmap(
             $drawer->drawRectangle(
                 $screenArea = Geometry\Rect::fromSize($size),
-                Graphic\Brush::createDefault()
-                    ->withFillColor(Graphic\Color::RGB(10, 10, 10, 220))
+                Graphic\Brush::createFilled(Graphic\Color::RGB(10, 10, 10, 220))
             )->drawText(
                 $drawer->createText(
                     "Help\nq : Quit\n->/space : Next\n<- : Previous",

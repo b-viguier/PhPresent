@@ -34,6 +34,15 @@ class Point
         return $this->y;
     }
 
+    public function movedBy(Vector $vector): self
+    {
+        $point = clone $this;
+        $point->x = $this->x + $vector->dx();
+        $point->y = $this->y + $vector->dy();
+
+        return $point;
+    }
+
     use Pattern\PrivateConstructor;
 
     /** @var float */

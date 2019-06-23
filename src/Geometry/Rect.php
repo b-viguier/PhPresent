@@ -75,6 +75,31 @@ class Rect
         );
     }
 
+    public function movedBy(Vector $vector): self
+    {
+        $rect = clone $this;
+        $rect->topLeft = $this->topLeft->movedBy($vector);
+
+        return $rect;
+    }
+
+    /**
+     * Scale from center
+     */
+    public function scaledBy(float $scale): self
+    {
+        $rect = clone $this;
+        $rect->size = $this->size->scaledBy($scale);
+        $rect->topLeft = $this->topLeft->movedBy(
+            Vector::fromPoints(
+                $this->topLeft,
+                $this->center()
+            )->scaledBy($scale)
+        );
+
+        return $rect;
+    }
+
     use Pattern\PrivateConstructor;
 
     /** @var Point */

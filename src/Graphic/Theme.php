@@ -13,7 +13,7 @@ class Theme
         return (new self())
             ->withBackgroundColor(Color::black())
             ->withFont(Font::createDefault())
-            ->withBrush(Brush::createDefault())
+            ->withBrush(Brush::createFrame(Color::black()))
             ;
     }
 

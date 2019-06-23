@@ -6,11 +6,11 @@ use RevealPhp\Pattern;
 
 class Brush
 {
-    public static function createDefault(): self
+    public static function createFrame(Color $color): self
     {
         return (new self())
-            ->withFillColor(Color::RGB(255, 255, 255))
-            ->withStrokeColor(Color::RGB(0, 0, 0))
+            ->withFillColor(Color::none())
+            ->withStrokeColor($color)
             ->withStrokeWidth(1);
     }
 

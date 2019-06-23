@@ -25,6 +25,21 @@ class Size
         return $this->height;
     }
 
+    public function scaledBy(float $scale): self
+    {
+        $scale = self::sanitize($scale);
+        $size = clone $this;
+        $size->height = $this->height * $scale;
+        $size->width = $this->width * $scale;
+
+        return $size;
+    }
+
+    public function toVector(): Vector
+    {
+        return Vector::fromCoordinates($this->width, $this->height);
+    }
+
     use Pattern\PrivateConstructor;
 
     private static function sanitize(float $value): float
