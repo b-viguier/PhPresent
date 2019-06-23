@@ -13,19 +13,21 @@ class BigTitle implements Presentation\Slide
         $this->title = $title;
     }
 
-    public function render(Geometry\Size $size, Graphic\Drawer $drawer, Graphic\Theme $theme): Presentation\TraversableSprites
+    public function render(Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme): Presentation\TraversableSprites
     {
         $font = $theme->font()
             ->withAlignment(Graphic\Font::ALIGN_CENTER)
-            ->withSize($size->height() / 6);
+            ->withSize($screen->safeArea()->size()->height() / 6);
 
         $text = $drawer->createText($this->title, $font);
         $bitmap = $drawer->drawText($text)
             ->createBitmap($text->area()->size());
 
-        $spritePosition = Geometry\Point::fromCoordinates(
-            ($size->width() - $text->area()->size()->width()) / 2,
-            ($size->height() - $text->area()->size()->height()) / 2
+        $spritePosition = $screen->safeArea()->topLeft()->movedBy(
+            Geometry\Vector::fromCoordinates(
+            ($screen->safeArea()->size()->width() - $text->area()->size()->width()) / 2,
+            ($screen->safeArea()->size()->height() - $text->area()->size()->height()) / 2
+            )
         );
 
         return Presentation\Sprite::fromBitmap($bitmap, $spritePosition);

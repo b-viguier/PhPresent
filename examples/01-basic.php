@@ -3,6 +3,7 @@
 require __DIR__.'/../vendor/autoload.php';
 
 use RevealPhp\Adapter;
+use RevealPhp\Geometry;
 use RevealPhp\Graphic;
 use RevealPhp\Presentation;
 
@@ -16,7 +17,8 @@ $presentation
     ->addSlide(new Presentation\Template\Simple\BigTitle("Bye\nWorld!"))
 ;
 
-$engine = new Adapter\Render\SdlEngine();
+$screen = Presentation\Screen::fromSizeWithExpectedRatio(Geometry\Size::fromDimensions(640, 480));
+$engine = new Adapter\Render\SdlEngine($screen);
 $drawer = new Adapter\Graphic\ImagickDrawer();
 
 $engine->start($presentation, $drawer);

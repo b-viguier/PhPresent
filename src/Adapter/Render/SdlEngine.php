@@ -9,16 +9,17 @@ use RevealPhp\Render;
 
 class SdlEngine implements Render\Engine
 {
-    public function __construct()
+    public function __construct(Presentation\Screen $screen)
     {
         \SDL_Init(SDL_INIT_VIDEO);
         $this->window = \SDL_CreateWindow(
             'RevealPhp',
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-            640, 480,
+            $screen->fullArea()->size()->width(), $screen->fullArea()->size()->height(),
             SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE
         );
         $this->renderer = \SDL_CreateRenderer($this->window, -1, 0);
+        $this->screen = $screen;
     }
 
     public function start(Presentation\SlideShow $slideShow, Graphic\Drawer $drawer)
@@ -26,7 +27,6 @@ class SdlEngine implements Render\Engine
         // Events data
         $quit = false;
         $event = new \SDL_Event();
-        $currentSize = Geometry\Size::fromDimensions(640, 480);
 
         /** @var ?Presentation\Sprite $helpSprite */
         $helpSprite = null;
@@ -40,7 +40,9 @@ class SdlEngine implements Render\Engine
                         break;
                     case SDL_WINDOWEVENT:
                         if ($event->window->event === SDL_WINDOWEVENT_RESIZED) {
-                            $currentSize = Geometry\Size::fromDimensions($event->window->data1, $event->window->data2);
+                            $this->screen = $this->screen->resized(
+                                Geometry\Size::fromDimensions($event->window->data1, $event->window->data2)
+                            );
                         }
                         break;
                     case SDL_KEYDOWN:
@@ -57,7 +59,7 @@ class SdlEngine implements Render\Engine
                                 break;
                             case SDLK_h:
                                 if ($helpSprite === null) {
-                                    $helpSprite = $this->helpSprite($currentSize, $drawer);
+                                    $helpSprite = $this->helpSprite($drawer);
                                 } else {
                                     $helpSprite = null;
                                 }
@@ -72,7 +74,7 @@ class SdlEngine implements Render\Engine
             \SDL_RenderClear($this->renderer);
 
             $spriteStack = new Presentation\SpriteStack();
-            $spriteStack->push($slideShow->currentSprites($currentSize, $drawer));
+            $spriteStack->push($slideShow->currentSprites($this->screen, $drawer));
             if ($helpSprite !== null) {
                 $spriteStack->push($helpSprite);
             }
@@ -108,13 +110,13 @@ class SdlEngine implements Render\Engine
         echo PHP_EOL;
     }
 
-    private function helpSprite(Geometry\Size $size, Graphic\Drawer $drawer): Presentation\TraversableSprites
+    private function helpSprite(Graphic\Drawer $drawer): Presentation\TraversableSprites
     {
         $drawer->clear();
 
         return Presentation\Sprite::fromBitmap(
             $drawer->drawRectangle(
-                $screenArea = Geometry\Rect::fromSize($size),
+                Geometry\Rect::fromSize($this->screen->safeArea()->size()),
                 Graphic\Brush::createFilled(Graphic\Color::RGB(10, 10, 10, 220))
             )->drawText(
                 $drawer->createText(
@@ -123,12 +125,14 @@ class SdlEngine implements Render\Engine
                         ->withAlignment(Graphic\Font::ALIGN_CENTER)
                         ->withBrush(Graphic\Brush::createFilled(Graphic\Color::RGB(250, 220, 0)))
                 )
-            )->createBitmap($size),
-            Geometry\Point::origin()
+            )->createBitmap($this->screen->safeArea()->size()),
+            $this->screen->safeArea()->topLeft()
         );
     }
 
     /** @var \SDL_Window */
     private $window;
     private $renderer;
+    /** @var Presentation\Screen */
+    private $screen;
 }

@@ -25,6 +25,11 @@ class Size
         return $this->height;
     }
 
+    public function ratio(): float
+    {
+        return $this->width / $this->height;
+    }
+
     public function scaledBy(float $scale): self
     {
         $scale = self::sanitize($scale);

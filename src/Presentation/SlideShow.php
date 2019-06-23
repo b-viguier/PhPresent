@@ -2,7 +2,6 @@
 
 namespace RevealPhp\Presentation;
 
-use RevealPhp\Geometry;
 use RevealPhp\Graphic;
 
 class SlideShow
@@ -20,17 +19,17 @@ class SlideShow
         return $this;
     }
 
-    public function currentSprites(Geometry\Size $size, Graphic\Drawer $drawer): TraversableSprites
+    public function currentSprites(Screen $screen, Graphic\Drawer $drawer): TraversableSprites
     {
         $stack = new SpriteStack();
 
         $drawer->clear();
-        $stack->push($this->backgroundSlide->render($size, $drawer, $this->theme));
+        $stack->push($this->backgroundSlide->render($screen, $drawer, $this->theme));
 
         /** @var Slide */
         $slide = $this->slides[$this->currentIndex];
         $drawer->clear();
-        $stack->push($slide->render($size, $drawer, $this->theme));
+        $stack->push($slide->render($screen, $drawer, $this->theme));
 
         return $stack;
     }
