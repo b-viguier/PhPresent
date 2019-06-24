@@ -21,7 +21,7 @@ class BigTitle implements Presentation\Slide
 
         $text = $drawer->createText($this->title, $font);
         $bitmap = $drawer->drawText($text)
-            ->createBitmap($text->area()->size());
+            ->toBitmap($text->area()->size());
 
         $spritePosition = $screen->safeArea()->topLeft()->movedBy(
             Geometry\Vector::fromCoordinates(

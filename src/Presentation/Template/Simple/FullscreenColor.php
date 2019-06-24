@@ -18,7 +18,7 @@ class FullscreenColor implements Presentation\Slide
         $bitmap = $drawer->drawRectangle(
             $screen->fullArea(),
             Graphic\Brush::createFilled($this->color)
-        )->createBitmap($screen->fullArea()->size());
+        )->toBitmap($screen->fullArea()->size());
 
         return Presentation\Sprite::fromBitmap(
             $bitmap,

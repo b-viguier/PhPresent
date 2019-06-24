@@ -102,7 +102,7 @@ class ImagickDrawer implements Graphic\Drawer
         return $this;
     }
 
-    public function createBitmap(Geometry\Size $size): Graphic\Bitmap
+    public function toBitmap(Geometry\Size $size): Graphic\Bitmap
     {
         $this->image->newImage($size->width(), $size->height(), '#0000');
         $this->image->setImageFormat('bmp');

@@ -14,7 +14,7 @@ interface Drawer
 
     public function drawImage(ImageFile $imageFile, ?Geometry\Rect $src, Geometry\Rect $dst): self;
 
-    public function createBitmap(Geometry\Size $size): Bitmap;
+    public function toBitmap(Geometry\Size $size): Bitmap;
 
     public function createText(string $text, Font $font): Text;
 }

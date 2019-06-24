@@ -125,7 +125,7 @@ class SdlEngine implements Render\Engine
                         ->withAlignment(Graphic\Font::ALIGN_CENTER)
                         ->withBrush(Graphic\Brush::createFilled(Graphic\Color::RGB(250, 220, 0)))
                 )
-            )->createBitmap($this->screen->safeArea()->size()),
+            )->toBitmap($this->screen->safeArea()->size()),
             $this->screen->safeArea()->topLeft()
         );
     }
