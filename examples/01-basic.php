@@ -18,7 +18,7 @@ $presentation
 ;
 
 $screen = Presentation\Screen::fromSizeWithExpectedRatio(Geometry\Size::fromDimensions(640, 480));
-$engine = new Adapter\Render\SdlEngine($screen);
-$drawer = new Adapter\Graphic\ImagickDrawer();
+$engine = new Adapter\SDL\Render\Engine($screen);
+$drawer = new Adapter\Imagick\Graphic\Drawer();
 
 $engine->start($presentation, $drawer);

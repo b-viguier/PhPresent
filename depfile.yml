@@ -3,10 +3,6 @@ paths:
 exclude_files:
   - .*test.*
 layers:
-  - name: Adapter
-    collectors:
-      - type: directory
-        regex: src/Adapter
   - name: Geometry
     collectors:
       - type: directory
@@ -15,6 +11,10 @@ layers:
     collectors:
       - type: directory
         regex: src/Graphic
+  - name: GraphicAdapter
+    collectors:
+      - type: directory
+        regex: 'src/Adapter/.*/Graphic'
   - name: Pattern
     collectors:
       - type: directory
@@ -27,12 +27,21 @@ layers:
     collectors:
       - type: directory
         regex: src/Render
+  - name: RenderAdapter
+    collectors:
+      - type: directory
+        regex: 'src/Adapter/.*/Render'
+
 ruleset:
   Pattern: ~
   Geometry:
     - Pattern
   Graphic:
     - Geometry
+    - Pattern
+  GraphicAdapter:
+    - Geometry
+    - Graphic
     - Pattern
   Presentation:
     - Geometry
@@ -43,9 +52,10 @@ ruleset:
     - Graphic
     - Pattern
     - Presentation
-  Adapter:
+  RenderAdapter:
     - Geometry
     - Graphic
     - Pattern
     - Presentation
     - Render
+

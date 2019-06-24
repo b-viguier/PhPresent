@@ -1,11 +1,11 @@
 <?php
 
-namespace RevealPhp\Adapter\Graphic;
+namespace RevealPhp\Adapter\Imagick\Graphic;
 
 use RevealPhp\Geometry;
 use RevealPhp\Graphic;
 
-class ImagickDrawer implements Graphic\Drawer
+class Drawer implements Graphic\Drawer
 {
     public function clear(): Graphic\Drawer
     {

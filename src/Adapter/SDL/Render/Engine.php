@@ -1,13 +1,13 @@
 <?php
 
-namespace RevealPhp\Adapter\Render;
+namespace RevealPhp\Adapter\SDL\Render;
 
 use RevealPhp\Geometry;
 use RevealPhp\Graphic;
 use RevealPhp\Presentation;
 use RevealPhp\Render;
 
-class SdlEngine implements Render\Engine
+class Engine implements Render\Engine
 {
     public function __construct(Presentation\Screen $screen)
     {
