@@ -4,11 +4,14 @@ namespace RevealPhp\Presentation;
 
 class SpriteStack implements TraversableSprites
 {
-    public function push(TraversableSprites $spriteList): self
+    public function __construct(TraversableSprites ...$sprites)
     {
-        $this->children[] = $spriteList;
+        $this->children = $sprites;
+    }
 
-        return $this;
+    public function withSpritesPushed(TraversableSprites ...$spriteList): self
+    {
+        return new self(...$this->children, ...$spriteList);
     }
 
     public function getIterator(): \Traversable

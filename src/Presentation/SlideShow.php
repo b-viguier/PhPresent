@@ -21,17 +21,18 @@ class SlideShow
 
     public function currentSprites(Screen $screen, Graphic\Drawer $drawer): TraversableSprites
     {
-        $stack = new SpriteStack();
-
         $drawer->clear();
-        $stack->push($this->backgroundSlide->render($screen, $drawer, $this->theme));
+        $backgroundSprintes = $this->backgroundSlide->render($screen, $drawer, $this->theme);
 
         /** @var Slide */
         $slide = $this->slides[$this->currentIndex];
         $drawer->clear();
-        $stack->push($slide->render($screen, $drawer, $this->theme));
+        $foregroundSprites = $slide->render($screen, $drawer, $this->theme);
 
-        return $stack;
+        return new SpriteStack(
+            $backgroundSprintes,
+            $foregroundSprites
+        );
     }
 
     public function next()

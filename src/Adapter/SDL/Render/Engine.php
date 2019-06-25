@@ -73,10 +73,9 @@ class Engine implements Render\Engine
             \SDL_SetRenderDrawColor($this->renderer, 95, 150, 249, 255);
             \SDL_RenderClear($this->renderer);
 
-            $spriteStack = new Presentation\SpriteStack();
-            $spriteStack->push($slideShow->currentSprites($this->screen, $drawer));
+            $spriteStack = new Presentation\SpriteStack($slideShow->currentSprites($this->screen, $drawer));
             if ($helpSprite !== null) {
-                $spriteStack->push($helpSprite);
+                $spriteStack = $spriteStack->withSpritesPushed($helpSprite);
             }
 
             /** @var Presentation\Sprite $sprite */
