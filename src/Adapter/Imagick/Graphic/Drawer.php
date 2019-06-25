@@ -9,110 +9,96 @@ class Drawer implements Graphic\Drawer
 {
     public function clear(): Graphic\Drawer
     {
-        $this->drawer = new \ImagickDraw();
-        $this->image = new \Imagick();
+        try {
+            $this->drawer = new \ImagickDraw();
+            $this->image = new \Imagick();
 
-        $this->drawer->setTextAntialias(true);
-        $this->drawer->setStrokeAntialias(true);
+            $this->drawer->setTextAntialias(true);
+            $this->drawer->setStrokeAntialias(true);
 
-        return $this;
+            return $this;
+        } catch (\Throwable $throwable) {
+            throw new Graphic\Exception\DrawerException('Failed to clear drawer', 0, $throwable);
+        }
     }
 
     public function drawRectangle(Geometry\Rect $rect, Graphic\Brush $brush): Graphic\Drawer
     {
-        $this->applyBrush($brush);
-        $this->drawer->rectangle($rect->topLeft()->x(), $rect->topLeft()->y(), $rect->bottomRight()->x(), $rect->bottomRight()->y());
+        try {
+            $this->applyBrush($brush);
+            $this->drawer->rectangle($rect->topLeft()->x(), $rect->topLeft()->y(), $rect->bottomRight()->x(), $rect->bottomRight()->y());
 
-        return $this;
+            return $this;
+        } catch (\Throwable $throwable) {
+            throw new Graphic\Exception\DrawerException('Failed to draw rectangle', 0, $throwable);
+        }
     }
 
     public function drawText(Graphic\Text $text): Graphic\Drawer
     {
-        $this->applyFont($text->font());
-        $this->applyBrush($text->font()->brush());
+        try {
+            $this->applyFont($text->font());
+            $this->applyBrush($text->font()->brush());
+            $this->drawer->annotation((int) $text->refPoint()->x(), (int) $text->refPoint()->y(), $text->content());
 
-        $this->drawer->annotation((int) $text->refPoint()->x(), (int) $text->refPoint()->y(), $text->content());
-
-        return $this;
+            return $this;
+        } catch (\Throwable $throwable) {
+            throw new Graphic\Exception\DrawerException('Failed to draw text', 0, $throwable);
+        }
     }
 
     public function createText(string $text, Graphic\Font $font): Graphic\Text
     {
-        $this->drawer->push();
-        $this->applyFont($font);
-        $metrics = $this->image->queryFontMetrics($this->drawer, $text);
-        $this->drawer->pop();
+        try {
+            $this->drawer->push();
+            $this->applyFont($font);
+            $metrics = $this->image->queryFontMetrics($this->drawer, $text);
+            $this->drawer->pop();
 
-        return new class($text, $font, $metrics) extends Graphic\Text {
-            public function __construct(string $text, Graphic\Font $font, array $metrics)
-            {
-                // Assuming topLeft is on (0,0), where should text be traced?
-                switch ($font->alignment()) {
-                    case Graphic\Font::ALIGN_LEFT:
-                        $textPosition = Geometry\Point::fromCoordinates(
-                            0,
-                            $metrics['ascender']
-                        );
-                        break;
-                    case Graphic\Font::ALIGN_CENTER:
-                        $textPosition = Geometry\Point::fromCoordinates(
-                            $metrics['textWidth'] / 2,
-                            $metrics['ascender']
-                        );
-                        break;
-                    case Graphic\Font::ALIGN_RIGHT:
-                        $textPosition = Geometry\Point::fromCoordinates(
-                            $metrics['textWidth'],
-                            $metrics['ascender']
-                        );
-                        break;
-                    default:
-                        $textPosition = Geometry\Point::origin();
-                }
-
-                parent::__construct(
-                    $text,
-                    $font,
-                    Geometry\Rect::fromSize(
-                        Geometry\Size::fromDimensions($metrics['textWidth'], $metrics['textHeight'])
-                    ),
-                    $textPosition
-                );
-            }
-        };
+            return new Text($text, $font, $metrics);
+        } catch (\Throwable $throwable) {
+            throw new Graphic\Exception\DrawerException('Failed to create text', 0, $throwable);
+        }
     }
 
-    public function drawImage(Graphic\ImageFile $imageFile, ?Geometry\Rect $src, Geometry\Rect $dst): Graphic\Drawer
+    public function drawBitmap(Graphic\Bitmap $bitmap, ?Geometry\Rect $src, Geometry\Rect $dst): Graphic\Drawer
     {
-        $image = new \Imagick($imageFile->path());
-        if ($src !== null) {
-            $image->cropImage($src->size()->width(), $src->size()->height(), $src->topLeft()->x(), $src->topLeft()->y());
+        try {
+            $image = new \Imagick();
+            $image->readImageBlob($bitmap->content());
+            if ($src !== null) {
+                $image->cropImage($src->size()->width(), $src->size()->height(), $src->topLeft()->x(), $src->topLeft()->y());
+            }
+            $image->resizeImage($dst->size()->width(), $dst->size()->height(), \Imagick::FILTER_GAUSSIAN, false);
+            $this->drawer->composite(
+                \Imagick::COMPOSITE_OVER,
+                $dst->topLeft()->x(),
+                $dst->topLeft()->y(),
+                $dst->size()->width(),
+                $dst->size()->height(),
+                $image
+            );
+
+            return $this;
+        } catch (\Throwable $throwable) {
+            throw new Graphic\Exception\DrawerException('Failed to draw bitmap', 0, $throwable);
         }
-        $image->resizeImage($dst->size()->width(), $dst->size()->height(), \Imagick::FILTER_GAUSSIAN, false);
-
-        $this->drawer->composite(
-            \Imagick::COMPOSITE_OVER,
-            $dst->topLeft()->x(),
-            $dst->topLeft()->y(),
-            $dst->size()->width(),
-            $dst->size()->height(),
-            $image
-        );
-
-        return $this;
     }
 
     public function toBitmap(Geometry\Size $size): Graphic\Bitmap
     {
-        $this->image->newImage($size->width(), $size->height(), '#0000');
-        $this->image->setImageFormat('bmp');
+        try {
+            $this->image->newImage($size->width(), $size->height(), '#0000');
+            $this->image->setImageFormat('bmp');
+            $this->image->drawImage($this->drawer);
 
-        $this->image->drawImage($this->drawer);
-
-        return Graphic\Bitmap::fromBmpContent(
-            $this->image->getImageBlob(),
-            $size
-        );
+            return Graphic\Bitmap::fromBmpContent(
+                $this->image->getImageBlob(),
+                $size
+            );
+        } catch (\Throwable $throwable) {
+            throw new Graphic\Exception\DrawerException('Failed to convert to bitmap', 0, $throwable);
+        }
     }
 
     public function __construct()

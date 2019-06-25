@@ -75,6 +75,32 @@ class Rect
         return $rect;
     }
 
+    public function outsideRect(float $ratio): self
+    {
+        $rect = new self();
+        if ($ratio < $this->size->ratio()) {
+            $rect->size = Size::fromDimensions(
+                $this->size->width(),
+                $this->size->width() / $ratio
+            );
+            $rect->topLeft = Point::fromCoordinates(
+                $this->topLeft->x(),
+                $this->topLeft->y() + ($this->size->height() - $rect->size->height()) / 2
+            );
+        } else {
+            $rect->size = Size::fromDimensions(
+                $this->size->height() * $ratio,
+                $this->size->height()
+            );
+            $rect->topLeft = Point::fromCoordinates(
+                $this->topLeft->x() + ($this->size->width() - $rect->size->width()) / 2,
+                $this->topLeft->y()
+            );
+        }
+
+        return $rect;
+    }
+
     public function topLeft(): Point
     {
         return $this->topLeft;
