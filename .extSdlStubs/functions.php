@@ -65,6 +65,8 @@ function SDL_RenderClear($renderer) {}
 function SDL_RenderCopy($renderer, $texture, SDL_Rect $srcrect, SDL_Rect $dstrect) {}
 function SDL_RenderCopyEx($renderer, $texture, SDL_Rect $srcrect, SDL_Rect $dstrect, $angle, SDL_Point $center, $flip) {}
 function SDL_RenderFillRect($renderer, SDL_Rect $rect) {}
+function SDL_RenderDrawRect($renderer, SDL_Rect $rect) {}
+function SDL_RenderDrawLine($renderer, $x1, $y1, $x2, $y2 = NULL) {}
 function SDL_RenderPresent($renderer) {}
 function SDL_CreateTextureFromSurface($renderer, SDL_Surface $surface): SDL_Texture {}
 function SDL_CreateRGBSurface($flags, $width, $height, $depth, $Rmask, $Gmask, $Bmask = NULL, $Amask = NULL) {}
