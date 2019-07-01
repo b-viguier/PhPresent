@@ -31,6 +31,13 @@ class Engine implements Render\Engine
         /** @var ?Presentation\Sprite $helpSprite */
         $helpSprite = null;
 
+        $textureLoader = new TextureLoader\Sprite();
+        $textureRenderers = [
+            new TextureRenderer\SdlRender(),
+            new TextureRenderer\Debug(new TextureRenderer\SdlRender()),
+            new TextureRenderer\Debug(new TextureRenderer\NoOp()),
+        ];
+
         while (!$quit) {
             // Inputs polling
             while (sdl_pollevent($event) !== 0) {
@@ -64,6 +71,11 @@ class Engine implements Render\Engine
                                     $helpSprite = null;
                                 }
                                 break;
+                            case SDLK_d:
+                                if (false === next($textureRenderers)) {
+                                    reset($textureRenderers);
+                                }
+                                break;
                         }
                         break;
                 }
@@ -78,33 +90,18 @@ class Engine implements Render\Engine
                 $spriteStack = $spriteStack->withSpritesPushed($helpSprite);
             }
 
+            \SDL_SetRenderDrawColor($this->renderer, 255, 0, 0, 255);
             /** @var Presentation\Sprite $sprite */
             foreach ($spriteStack as $sprite) {
-                $image = $sprite->bitmap()->content();
-                $stream = \SDL_RWFromConstMem($image, strlen($image));
-                unset($image);
-                $surface = \SDL_LoadBMP_RW($stream, 1/*free*/);
-                $texture = \SDL_CreateTextureFromSurface($this->renderer, $surface);
-                \SDL_FreeSurface($surface);
-
-                $dstRect = new \SDL_Rect(
-                    (int) $sprite->position()->x(),
-                    (int) $sprite->position()->y(),
-                    (int) $sprite->bitmap()->size()->width(),
-                    (int) $sprite->bitmap()->size()->height()
-                );
-
-                \SDL_RenderCopy(
+                current($textureRenderers)->render(
                     $this->renderer,
-                    $texture,
-                    null,
-                    $dstRect
+                    $textureLoader->load($this->renderer, $sprite)
                 );
             }
 
             // Screen refresh
             \SDL_RenderPresent($this->renderer);
-            \SDL_Delay(10);
+            \SDL_Delay(1000 / 60); /* 60 FPS */
         }
         echo PHP_EOL;
     }
@@ -119,7 +116,7 @@ class Engine implements Render\Engine
                 Graphic\Brush::createFilled(Graphic\Color::RGB(10, 10, 10, 220))
             )->drawText(
                 $drawer->createText(
-                    "Help\nq : Quit\n->/space : Next\n<- : Previous",
+                    "Help\nq : Quit\n->/space : Next\n<- : Previous\nd : Toggle Debug",
                     Graphic\Font::createDefault()
                         ->withAlignment(Graphic\Font::ALIGN_CENTER)
                         ->withBrush(Graphic\Brush::createFilled(Graphic\Color::RGB(250, 220, 0)))
