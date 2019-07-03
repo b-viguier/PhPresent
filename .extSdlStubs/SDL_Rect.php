@@ -16,7 +16,7 @@ class SDL_Rect
 
     public $h = 0;
 
-    public function __construct(int $x = null, int $y = null, int $w = null)
+    public function __construct(int $x = null, int $y = null, int $w = null, int $h = null)
     {
     }
 

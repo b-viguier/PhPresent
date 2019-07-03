@@ -77,7 +77,7 @@ function SDL_MUSTLOCK(SDL_Surface $surface) {}
 function SDL_LockSurface(SDL_Surface $surface) {}
 function SDL_UnlockSurface(SDL_Surface $surface) {}
 function SDL_LoadBMP_RW(SDL_RWops &$RWops, $freesrc): SDL_Surface {}
-function SDL_LoadBMP($path) {}
+function SDL_LoadBMP($path): SDL_Surface {}
 function SDL_UpperBlit(SDL_Surface $src, SDL_Rect $srcrect, SDL_Surface $dst, SDL_Rect &$dstrect = NULL) {}
 function SDL_LowerBlit(SDL_Surface $src, SDL_Rect &$srcrect, SDL_Surface $dst, SDL_Rect &$dstrect) {}
 function SDL_UpperBlitScaled(SDL_Surface $src, SDL_Rect $srcrect, SDL_Surface $dst, SDL_Rect &$dstrect = NULL) {}
