@@ -38,6 +38,15 @@ class Engine implements Render\Engine
             new TextureRenderer\Debug(new TextureRenderer\NoOp()),
         ];
 
+        $dbgTextRenderer = DbgTextRenderer::create($this->renderer);
+        $postRenderers = [
+            new PostRenderer\NoOp(),
+            new PostRenderer\Stack(
+                new PostRenderer\SafeZone(),
+                new PostRenderer\Statistics($dbgTextRenderer)
+            ),
+        ];
+
         while (!$quit) {
             // Inputs polling
             while (sdl_pollevent($event) !== 0) {
@@ -72,8 +81,10 @@ class Engine implements Render\Engine
                                 }
                                 break;
                             case SDLK_d:
+                                end($postRenderers);
                                 if (false === next($textureRenderers)) {
                                     reset($textureRenderers);
+                                    reset($postRenderers);
                                 }
                                 break;
                         }
@@ -98,6 +109,8 @@ class Engine implements Render\Engine
                     $textureLoader->load($this->renderer, $sprite)
                 );
             }
+
+            current($postRenderers)->render($this->renderer, $this->screen);
 
             // Screen refresh
             \SDL_RenderPresent($this->renderer);
