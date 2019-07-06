@@ -61,14 +61,11 @@ class Drawer implements Graphic\Drawer
         }
     }
 
-    public function drawBitmap(Graphic\Bitmap $bitmap, ?Geometry\Rect $src, Geometry\Rect $dst): Graphic\Drawer
+    public function drawBitmap(Graphic\Bitmap $bitmap, Geometry\Rect $src, Geometry\Rect $dst): Graphic\Drawer
     {
         try {
             $image = new \Imagick();
             $image->readImageBlob($bitmap->content());
-            if ($src !== null) {
-                $image->cropImage($src->size()->width(), $src->size()->height(), $src->topLeft()->x(), $src->topLeft()->y());
-            }
             $image->resizeImage($dst->size()->width(), $dst->size()->height(), \Imagick::FILTER_GAUSSIAN, false);
             $this->drawer->composite(
                 \Imagick::COMPOSITE_OVER,

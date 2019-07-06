@@ -4,7 +4,7 @@ namespace RevealPhp\Graphic;
 
 use RevealPhp\Pattern;
 
-class Color
+class Color implements Pattern\Identifiable
 {
     public static function RGB(int $red, int $green, int $blue, int $alpha = 255): self
     {
@@ -56,6 +56,17 @@ class Color
                 dechex($this->r * (1 << 24) + $this->g * (1 << 16) + $this->b * (1 << 8) + $this->a),
                 8, '0', STR_PAD_LEFT
             );
+    }
+
+    public function identifier(): Pattern\Identifier
+    {
+        return Pattern\Identifier::fromString(
+            self::class,
+            $this->r,
+            $this->g,
+            $this->b,
+            $this->a
+        );
     }
 
     private static function sanitizeValue(int $value): int

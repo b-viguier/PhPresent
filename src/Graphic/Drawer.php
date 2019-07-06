@@ -12,7 +12,7 @@ interface Drawer
 
     public function drawText(Text $text): self;
 
-    public function drawBitmap(Bitmap $bitmap, ?Geometry\Rect $src, Geometry\Rect $dst): self;
+    public function drawBitmap(Bitmap $bitmap, Geometry\Rect $src, Geometry\Rect $dst): self;
 
     public function toBitmap(Geometry\Size $size): Bitmap;
 

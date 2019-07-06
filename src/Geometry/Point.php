@@ -4,7 +4,7 @@ namespace RevealPhp\Geometry;
 
 use RevealPhp\Pattern;
 
-class Point
+class Point implements Pattern\Identifiable
 {
     public static function origin(): self
     {
@@ -41,6 +41,15 @@ class Point
         $point->y = $this->y + $vector->dy();
 
         return $point;
+    }
+
+    public function identifier(): Pattern\Identifier
+    {
+        return Pattern\Identifier::fromString(
+            self::class,
+            $this->x,
+            $this->y
+        );
     }
 
     use Pattern\PrivateConstructor;

@@ -4,7 +4,7 @@ namespace RevealPhp\Geometry;
 
 use RevealPhp\Pattern;
 
-class Size
+class Size implements Pattern\Identifiable
 {
     public static function fromDimensions(float $width, float $height): self
     {
@@ -43,6 +43,15 @@ class Size
     public function toVector(): Vector
     {
         return Vector::fromCoordinates($this->width, $this->height);
+    }
+
+    public function identifier(): Pattern\Identifier
+    {
+        return Pattern\Identifier::fromString(
+            self::class,
+            $this->width,
+            $this->height
+        );
     }
 
     use Pattern\PrivateConstructor;

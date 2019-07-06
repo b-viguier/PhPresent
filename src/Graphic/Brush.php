@@ -4,7 +4,7 @@ namespace RevealPhp\Graphic;
 
 use RevealPhp\Pattern;
 
-class Brush
+class Brush implements Pattern\Identifiable
 {
     public static function createFrame(Color $color): self
     {
@@ -59,6 +59,16 @@ class Brush
     public function fillColor(): Color
     {
         return $this->fillColor;
+    }
+
+    public function identifier(): Pattern\Identifier
+    {
+        return Pattern\Identifier::fromString(
+            self::class,
+            $this->strokeWidth(),
+            $this->strokeColor->identifier(),
+            $this->fillColor->identifier()
+        );
     }
 
     use Pattern\PrivateConstructor;

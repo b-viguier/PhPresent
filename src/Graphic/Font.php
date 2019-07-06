@@ -4,7 +4,7 @@ namespace RevealPhp\Graphic;
 
 use RevealPhp\Pattern;
 
-class Font
+class Font implements Pattern\Identifiable
 {
     public const ALIGN_LEFT = 1;
     public const ALIGN_RIGHT = 2;
@@ -82,6 +82,17 @@ class Font
     public function brush(): Brush
     {
         return $this->brush;
+    }
+
+    public function identifier(): Pattern\Identifier
+    {
+        return Pattern\Identifier::fromString(
+            self::class,
+            $this->fontFile,
+            $this->size,
+            $this->alignment,
+            $this->brush->identifier()
+        );
     }
 
     use Pattern\PrivateConstructor;

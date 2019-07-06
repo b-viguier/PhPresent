@@ -5,7 +5,7 @@ namespace RevealPhp\Graphic;
 use RevealPhp\Geometry;
 use RevealPhp\Pattern;
 
-class Bitmap
+class Bitmap implements Pattern\Identifiable
 {
     use Pattern\PrivateConstructor;
 
@@ -26,6 +26,14 @@ class Bitmap
     public function size(): Geometry\Size
     {
         return $this->size;
+    }
+
+    public function identifier(): Pattern\Identifier
+    {
+        return Pattern\Identifier::fromString(
+            self::class,
+            $this->content
+        );
     }
 
     /** @var string */

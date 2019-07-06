@@ -4,7 +4,7 @@ namespace RevealPhp\Geometry;
 
 use RevealPhp\Pattern;
 
-class Rect
+class Rect implements Pattern\Identifiable
 {
     public static function fromTopLeftAndSize(Point $topLeft, Size $size): self
     {
@@ -47,6 +47,15 @@ class Rect
         $rect->size = Size::fromDimensions($xMax - $xMin, $yMax - $yMin);
 
         return $rect;
+    }
+
+    public function identifier(): Pattern\Identifier
+    {
+        return Pattern\Identifier::fromString(
+            self::class,
+            $this->topLeft->identifier(),
+            $this->size->identifier()
+        );
     }
 
     public function insideRect(float $ratio): self

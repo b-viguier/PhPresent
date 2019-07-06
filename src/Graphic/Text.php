@@ -3,8 +3,9 @@
 namespace RevealPhp\Graphic;
 
 use RevealPhp\Geometry;
+use RevealPhp\Pattern;
 
-class Text
+class Text implements Pattern\Identifiable
 {
     /**
      * Use Drawer to create an instance.
@@ -47,6 +48,17 @@ class Text
     public function area(): Geometry\Rect
     {
         return $this->area;
+    }
+
+    public function identifier(): Pattern\Identifier
+    {
+        return Pattern\Identifier::fromString(
+            self::class,
+            $this->text,
+            $this->font->identifier(),
+            $this->area->identifier(),
+            $this->refPoint->identifier()
+        );
     }
 
     /** @var string */
