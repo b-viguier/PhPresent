@@ -43,7 +43,7 @@ class Engine implements Render\Engine
             new PostRenderer\NoOp(),
             new PostRenderer\Stack(
                 new PostRenderer\SafeZone(),
-                new PostRenderer\Statistics($dbgTextRenderer)
+                new PostRenderer\Statistics($dbgTextRenderer, $drawer)
             ),
         ];
 

@@ -3,8 +3,9 @@
 namespace RevealPhp\Graphic;
 
 use RevealPhp\Geometry;
+use RevealPhp\Pattern;
 
-interface Drawer
+interface Drawer extends Pattern\MetricProducer
 {
     public function clear(): self;
 

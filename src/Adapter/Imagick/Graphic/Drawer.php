@@ -98,6 +98,12 @@ class Drawer implements Graphic\Drawer
         }
     }
 
+    public function allMetrics(): iterable
+    {
+        return;
+        yield;
+    }
+
     public function __construct()
     {
         $this->clear();

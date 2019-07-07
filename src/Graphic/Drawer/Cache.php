@@ -60,6 +60,12 @@ class Cache implements Graphic\Drawer
         return $this->drawer->createText($text, $font);
     }
 
+    public function allMetrics(): iterable
+    {
+        yield 'BMP CACHE' => count($this->bitmapCache);
+        yield from $this->drawer->allMetrics();
+    }
+
     /** @var Graphic\Drawer */
     private $drawer;
     /** @var array<DrawerOperation> */
