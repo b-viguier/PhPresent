@@ -161,6 +161,59 @@ class Rect implements Pattern\Identifiable
         return $rect;
     }
 
+    public function leftAlignedWith(Point $point): self
+    {
+        $rect = clone $this;
+        $rect->topLeft = Point::fromCoordinates($point->x(), $this->topLeft->y());
+
+        return $rect;
+    }
+
+    public function rightAlignedWith(Point $point): self
+    {
+        $rect = clone $this;
+        $rect->topLeft = Point::fromCoordinates($point->x() - $this->size->width(), $this->topLeft->y());
+
+        return $rect;
+    }
+
+    public function hCenteredWith(Point $point): self
+    {
+        $rect = clone $this;
+        $rect->topLeft = Point::fromCoordinates($point->x() - $this->size->width() / 2, $this->topLeft->y());
+
+        return $rect;
+    }
+
+    public function topAlignedWith(Point $point): self
+    {
+        $rect = clone $this;
+        $rect->topLeft = Point::fromCoordinates($this->topLeft->x(), $point->y());
+
+        return $rect;
+    }
+
+    public function bottomAlignedWith(Point $point): self
+    {
+        $rect = clone $this;
+        $rect->topLeft = Point::fromCoordinates($this->topLeft->x(), $point->y() - $this->size->height());
+
+        return $rect;
+    }
+
+    public function vCenteredWith(Point $point): self
+    {
+        $rect = clone $this;
+        $rect->topLeft = Point::fromCoordinates($this->topLeft->x(), $point->y() - $this->size->height() / 2);
+
+        return $rect;
+    }
+
+    public function centeredOn(Point $point): self
+    {
+        return $this->movedBy(Vector::fromPoints($this->center(), $point));
+    }
+
     use Pattern\PrivateConstructor;
 
     /** @var Point */
