@@ -10,10 +10,26 @@ class Theme
 
     public static function createDefault(): self
     {
+        $defaultFont = Font::createDefault();
+        $defaultBrush = $defaultFont->brush();
+
         return (new self())
-            ->withBackgroundColor(Color::black())
-            ->withFont(Font::createDefault())
+            ->withBackgroundColor(Color::white())
             ->withBrush(Brush::createFrame(Color::black()))
+            ->withFontH1(RelativeFont::fromFont(
+                $defaultFont->withSize(15),
+                100
+            ))
+            ->withFontH2(RelativeFont::fromFont(
+                $defaultFont
+                    ->withSize(10)
+                    ->withBrush(
+                        $defaultBrush
+                        ->withFillColor(($h2Color = Color::RGB(100, 100, 100)))
+                        ->withStrokeColor($h2Color)
+                ),
+                100
+            ))
             ;
     }
 
@@ -30,15 +46,28 @@ class Theme
         return $theme;
     }
 
-    public function font(): Font
+    public function fontH1(): RelativeFont
     {
-        return $this->font;
+        return $this->fontH1;
     }
 
-    public function withFont(Font $font): self
+    public function withFontH1(RelativeFont $font): self
     {
         $theme = clone $this;
-        $theme->font = $font;
+        $theme->fontH1 = $font;
+
+        return $theme;
+    }
+
+    public function fontH2(): RelativeFont
+    {
+        return $this->fontH2;
+    }
+
+    public function withFontH2(RelativeFont $font): self
+    {
+        $theme = clone $this;
+        $theme->fontH2 = $font;
 
         return $theme;
     }
@@ -58,8 +87,10 @@ class Theme
 
     /** @var Color */
     private $bgColor;
-    /** @var Font */
-    private $font;
+    /** @var RelativeFont */
+    private $fontH1;
+    /** @var RelativeFont */
+    private $fontH2;
     /** @var Brush */
     private $brush;
 }
