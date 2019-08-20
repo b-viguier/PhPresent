@@ -130,7 +130,7 @@ class Engine implements Render\Engine
             )->drawText(
                 $drawer->createText(
                     "Help\nq : Quit\n->/space : Next\n<- : Previous\nd : Toggle Debug",
-                    Graphic\Font::createDefault()
+                    Graphic\Font::createDefaultMono()
                         ->withAlignment(Graphic\Font::ALIGN_CENTER)
                         ->withBrush(Graphic\Brush::createFilled(Graphic\Color::RGB(250, 220, 0)))
                 )

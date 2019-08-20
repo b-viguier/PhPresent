@@ -10,7 +10,7 @@ class Theme
 
     public static function createDefault(): self
     {
-        $defaultFont = Font::createDefault();
+        $defaultFont = Font::createDefaultSans();
         $defaultBrush = $defaultFont->brush();
 
         return (new self())
