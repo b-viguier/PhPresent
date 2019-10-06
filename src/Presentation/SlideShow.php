@@ -9,53 +9,59 @@ class SlideShow
     public function __construct(Graphic\Theme $theme, Slide $backgroundSlide)
     {
         $this->theme = $theme;
-        $this->backgroundSlide = $backgroundSlide;
+        $this->backgroundSlide = new AsyncSlideHandler($backgroundSlide);
+        $this->lastTimestamp = Timestamp::origin(microtime(true));
     }
 
     public function addSlide(Slide $slide): self
     {
-        $this->slides[] = $slide;
+        $this->slideHandlers[] = new AsyncSlideHandler($slide);
 
         return $this;
     }
 
-    public function currentSprites(Screen $screen, Graphic\Drawer $drawer): TraversableSprites
+    public function currentFrame(Screen $screen, Graphic\Drawer $drawer): Frame
     {
-        $drawer->clear();
-        $backgroundSprintes = $this->backgroundSlide->render($screen, $drawer, $this->theme);
+        $this->lastTimestamp = $this->lastTimestamp->nextFrame(microtime(true));
 
-        /** @var Slide */
-        $slide = $this->slides[$this->currentIndex];
         $drawer->clear();
-        $foregroundSprites = $slide->render($screen, $drawer, $this->theme);
+        $backgroundFrame = $this->backgroundSlide->renderFrame($this->lastTimestamp, $screen, $drawer, $this->theme);
 
-        return new SpriteStack(
-            $backgroundSprintes,
-            $foregroundSprites
+        /** @var AsyncSlideHandler */
+        $slide = $this->slideHandlers[$this->currentIndex];
+        $drawer->clear();
+        $foregroundFrame = $slide->renderFrame($this->lastTimestamp, $screen, $drawer, $this->theme);
+
+        return $backgroundFrame->withPushedSprites(
+            $foregroundFrame->sprites()
         );
     }
 
     public function next()
     {
-        $this->currentIndex = min($this->currentIndex + 1, count($this->slides) - 1);
+        $this->currentIndex = min($this->currentIndex + 1, count($this->slideHandlers) - 1);
+        $this->lastTimestamp = $this->lastTimestamp->nextSlide(microtime(true));
     }
 
     public function previous()
     {
         $this->currentIndex = max($this->currentIndex - 1, 0);
+        $this->lastTimestamp = $this->lastTimestamp->nextSlide(microtime(true));
     }
 
     public function isLastSlide(): bool
     {
-        return $this->currentIndex == count($this->slides) - 1;
+        return $this->currentIndex == count($this->slideHandlers) - 1;
     }
 
-    /** @var array<Slide> */
-    private $slides = [];
+    /** @var array<AsyncSlideHandler> */
+    private $slideHandlers = [];
     /** @var int */
     private $currentIndex = 0;
     /** @var Graphic\Theme */
     private $theme;
-    /** @var Slide */
+    /** @var AsyncSlideHandler */
     private $backgroundSlide;
+    /** @var Timestamp */
+    private $lastTimestamp;
 }

@@ -31,6 +31,11 @@ class Identifier
         return $identifier;
     }
 
+    public function equals(self $identifier): bool
+    {
+        return $this->stringId === $identifier->stringId;
+    }
+
     public function toString(): string
     {
         return $this->stringId;

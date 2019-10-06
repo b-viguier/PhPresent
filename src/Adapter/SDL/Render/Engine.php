@@ -96,14 +96,14 @@ class Engine implements Render\Engine
             \SDL_SetRenderDrawColor($this->renderer, 95, 150, 249, 255);
             \SDL_RenderClear($this->renderer);
 
-            $spriteStack = new Presentation\SpriteStack($slideShow->currentSprites($this->screen, $drawer));
+            $frame = $slideShow->currentFrame($this->screen, $drawer);
             if ($helpSprite !== null) {
-                $spriteStack = $spriteStack->withSpritesPushed($helpSprite);
+                $frame = $frame->withPushedSprites($helpSprite);
             }
 
             \SDL_SetRenderDrawColor($this->renderer, 255, 0, 0, 255);
             /** @var Presentation\Sprite $sprite */
-            foreach ($spriteStack as $sprite) {
+            foreach ($frame->sprites() as $sprite) {
                 current($textureRenderers)->render(
                     $this->renderer,
                     $textureLoader->load($this->renderer, $sprite)

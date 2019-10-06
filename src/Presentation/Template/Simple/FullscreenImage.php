@@ -13,12 +13,12 @@ class FullscreenImage implements Presentation\Slide
         $this->bitmap = $bitmap;
     }
 
-    public function render(Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme): Presentation\TraversableSprites
+    public function render(Presentation\Timestamp $timestamp, Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme)
     {
         $imageSpace = Geometry\Rect::fromSize($this->bitmap->size());
         $screenAreaInImageSpace = $imageSpace->insideRect($screen->fullArea()->size()->ratio());
 
-        return Presentation\Sprite::fromBitmap(
+        return new Presentation\Frame(Presentation\Sprite::fromBitmap(
             $drawer
                 ->drawBitmap(
                     $this->bitmap,
@@ -27,7 +27,7 @@ class FullscreenImage implements Presentation\Slide
                 )
                 ->toBitmap($screen->fullArea()->size()),
             $screen->fullArea()->topLeft()
-        );
+        ));
     }
 
     /** @var Graphic\Bitmap */

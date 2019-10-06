@@ -2,10 +2,11 @@
 
 namespace RevealPhp\Presentation\Template\Simple;
 
+use RevealPhp\Geometry;
 use RevealPhp\Graphic;
 use RevealPhp\Presentation;
 
-class TitleAndSubtitle implements Presentation\Slide
+class TitleAndMovingSubtitle implements Presentation\Slide
 {
     public function __construct(string $title, string $subTitle)
     {
@@ -41,9 +42,17 @@ class TitleAndSubtitle implements Presentation\Slide
         $bitmap = $drawer->drawText($text)
             ->toBitmap($text->area()->size());
 
-        $spritePosition = $text->area()->hCenteredWith($screenCenter)->topAlignedWith($screenCenter)->topLeft();
-
+        $initialSpritePosition = $text->area()->hCenteredWith($screenCenter)->topAlignedWith($screenCenter)->topLeft();
         $subtitleSprite = Presentation\Sprite::fromBitmap($bitmap, $spritePosition);
+
+        while ($timestamp->slideRelative() < 10000 /*ms*/) {
+            $spritePosition = $initialSpritePosition->movedBy(Geometry\Vector::fromCoordinates(sin($timestamp->slideRelative() / 1000) * 100, 0));
+            $subtitleSprite = Presentation\Sprite::fromBitmap($bitmap, $spritePosition);
+
+            $timestamp = yield new Presentation\Frame($titleSprite, $subtitleSprite);
+        }
+
+        $subtitleSprite = Presentation\Sprite::fromBitmap($bitmap, $initialSpritePosition);
 
         return new Presentation\Frame($titleSprite, $subtitleSprite);
     }

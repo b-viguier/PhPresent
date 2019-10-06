@@ -12,7 +12,7 @@ class BigTitle implements Presentation\Slide
         $this->title = $title;
     }
 
-    public function render(Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme): Presentation\TraversableSprites
+    public function render(Presentation\Timestamp $timestamp, Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme)
     {
         $font = $theme->fontH1()
             ->relativeTo($screen->safeArea()->size()->height())
@@ -24,7 +24,7 @@ class BigTitle implements Presentation\Slide
 
         $spritePosition = $text->area()->centeredOn($screen->safeArea()->center())->topLeft();
 
-        return Presentation\Sprite::fromBitmap($bitmap, $spritePosition);
+        return new Presentation\Frame(Presentation\Sprite::fromBitmap($bitmap, $spritePosition));
     }
 
     /** @var string */

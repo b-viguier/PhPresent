@@ -6,5 +6,8 @@ use RevealPhp\Graphic;
 
 interface Slide
 {
-    public function render(Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme): TraversableSprites;
+    /**
+     * @return Frame|\Generator
+     */
+    public function render(Timestamp $timestamp, Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme);
 }

@@ -17,6 +17,7 @@ $presentation = new Presentation\SlideShow(
 $presentation
     ->addSlide(new Presentation\Template\Simple\TitleAndSubtitle('RevealPhp', 'A Slideshow tool'))
     ->addSlide(new Presentation\Template\Simple\BigTitle("Hello\nWorld!"))
+    ->addSlide(new Presentation\Template\Simple\TitleAndMovingSubtitle('With…', 'Animations!'))
     ->addSlide(new Presentation\Template\Simple\FullscreenImage($bitmapLoader->fromFile(__DIR__.'/../assets/images/background.jpg')))
     ->addSlide(new Presentation\Template\Simple\BigTitle("Bye\nWorld!"))
 ;

@@ -13,17 +13,17 @@ class FullscreenColor implements Presentation\Slide
         $this->color = $color;
     }
 
-    public function render(Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme): Presentation\TraversableSprites
+    public function render(Presentation\Timestamp $timestamp, Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme)
     {
         $bitmap = $drawer->drawRectangle(
             $screen->fullArea(),
             Graphic\Brush::createFilled($this->color)
         )->toBitmap($screen->fullArea()->size());
 
-        return Presentation\Sprite::fromBitmap(
+        return new Presentation\Frame(Presentation\Sprite::fromBitmap(
             $bitmap,
             Geometry\Point::origin()
-        );
+        ));
     }
 
     /** @var Graphic\Color */
