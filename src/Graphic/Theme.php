@@ -4,7 +4,7 @@ namespace RevealPhp\Graphic;
 
 use RevealPhp\Pattern;
 
-class Theme
+class Theme implements Pattern\Identifiable
 {
     use Pattern\PrivateConstructor;
 
@@ -83,6 +83,17 @@ class Theme
         $theme->brush = $brush;
 
         return $theme;
+    }
+
+    public function identifier(): Pattern\Identifier
+    {
+        return Pattern\Identifier::fromIdentifiable(
+            self::class,
+            $this->bgColor,
+            $this->brush,
+            $this->fontH1,
+            $this->fontH2
+        );
     }
 
     /** @var Color */

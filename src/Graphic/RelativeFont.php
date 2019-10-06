@@ -4,7 +4,7 @@ namespace RevealPhp\Graphic;
 
 use RevealPhp\Pattern;
 
-class RelativeFont
+class RelativeFont implements Pattern\Identifiable
 {
     use Pattern\PrivateConstructor;
 
@@ -21,6 +21,15 @@ class RelativeFont
     {
         return $this->font->withSize(
             $viewportHeight * $this->sizeRatio
+        );
+    }
+
+    public function identifier(): Pattern\Identifier
+    {
+        return Pattern\Identifier::fromString(
+            self::class,
+            $this->font->identifier(),
+            (string) $this->sizeRatio
         );
     }
 
