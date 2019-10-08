@@ -26,7 +26,7 @@ class Drawer implements Graphic\Drawer
     {
         try {
             $this->applyBrush($brush);
-            $this->drawer->rectangle($rect->topLeft()->x(), $rect->topLeft()->y(), $rect->bottomRight()->x(), $rect->bottomRight()->y());
+            $this->drawer->rectangle((int) $rect->topLeft()->x(), (int) $rect->topLeft()->y(), (int) $rect->bottomRight()->x(), (int) $rect->bottomRight()->y());
 
             return $this;
         } catch (\Throwable $throwable) {
@@ -66,13 +66,13 @@ class Drawer implements Graphic\Drawer
         try {
             $image = new \Imagick();
             $image->readImageBlob($bitmap->content());
-            $image->resizeImage($dst->size()->width(), $dst->size()->height(), \Imagick::FILTER_GAUSSIAN, false);
+            $image->resizeImage((int) $dst->size()->width(), (int) $dst->size()->height(), \Imagick::FILTER_GAUSSIAN, false);
             $this->drawer->composite(
                 \Imagick::COMPOSITE_OVER,
-                $dst->topLeft()->x(),
-                $dst->topLeft()->y(),
-                $dst->size()->width(),
-                $dst->size()->height(),
+                (int) $dst->topLeft()->x(),
+                (int) $dst->topLeft()->y(),
+                (int) $dst->size()->width(),
+                (int) $dst->size()->height(),
                 $image
             );
 
@@ -85,7 +85,7 @@ class Drawer implements Graphic\Drawer
     public function toBitmap(Geometry\Size $size): Graphic\Bitmap
     {
         try {
-            $this->image->newImage($size->width(), $size->height(), '#0000');
+            $this->image->newImage((int) $size->width(), (int) $size->height(), '#0000');
             $this->image->setImageFormat('bmp');
             $this->image->drawImage($this->drawer);
 
@@ -119,7 +119,7 @@ class Drawer implements Graphic\Drawer
     private function applyFont(Graphic\Font $font): void
     {
         $this->drawer->setFont($font->fontFile());
-        $this->drawer->setFontSize($font->size());
+        $this->drawer->setFontSize((int) $font->size());
         $this->drawer->setTextAlignment($this->imagickAlignment($font));
     }
 
