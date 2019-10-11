@@ -16,10 +16,14 @@ class Engine implements Render\Engine
             'RevealPhp',
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
             $screen->fullArea()->size()->width(), $screen->fullArea()->size()->height(),
-            SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE
+            SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI
         );
         $this->renderer = \SDL_CreateRenderer($this->window, -1, 0);
-        $this->screen = $screen;
+        $w = $h = 0;
+        \SDL_GetRendererOutputSize($this->renderer, $w, $h);
+        $this->screen = Presentation\Screen::fromSizeWithExpectedRatio(
+            Geometry\Size::fromDimensions($w, $h)
+        );
     }
 
     public function start(Presentation\SlideShow $slideShow, Graphic\Drawer $drawer)
@@ -56,8 +60,10 @@ class Engine implements Render\Engine
                         break;
                     case SDL_WINDOWEVENT:
                         if ($event->window->event === SDL_WINDOWEVENT_RESIZED) {
+                            $w = $h = 0;
+                            \SDL_GetRendererOutputSize($this->renderer, $w, $h);
                             $this->screen = $this->screen->resized(
-                                Geometry\Size::fromDimensions($event->window->data1, $event->window->data2)
+                                Geometry\Size::fromDimensions($w, $h)
                             );
                         }
                         break;
