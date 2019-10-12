@@ -8,6 +8,7 @@ use RevealPhp\Graphic;
 use RevealPhp\Presentation;
 
 $bitmapLoader = new Adapter\Imagick\Graphic\BitmapLoader();
+$bitmapSequenceLoader = new Adapter\Imagick\Graphic\BitmapSequenceLoader();
 
 $presentation = new Presentation\SlideShow(
     Graphic\Theme::createDefault(),
@@ -15,10 +16,21 @@ $presentation = new Presentation\SlideShow(
 );
 
 $presentation
-    ->addSlide(new Presentation\Template\Simple\TitleAndSubtitle('RevealPhp', 'A Slideshow tool'))
-    ->addSlide(new Presentation\Template\Simple\BigTitle("Hello\nWorld!"))
-    ->addSlide(new Presentation\Template\Simple\TitleAndMovingSubtitle('With…', 'Animations!'))
-    ->addSlide(new Presentation\Template\Simple\FullscreenImage($bitmapLoader->fromFile(__DIR__.'/../assets/images/background.jpg')))
+    ->addSlide(new Presentation\Template\Simple\TitleAndSubtitle(
+        'RevealPhp', 'A Slideshow tool'
+    ))
+    ->addSlide(new Presentation\Template\Simple\FullscreenAnimatedImage(
+        $bitmapSequenceLoader->fromFile(__DIR__.'/../assets/images/whirlyGif.gif')
+    ))
+    ->addSlide(new Presentation\Template\Simple\BigTitle(
+        "Hello\nWorld!"
+    ))
+    ->addSlide(new Presentation\Template\Simple\TitleAndMovingSubtitle(
+        'With…', 'Animations!'
+    ))
+    ->addSlide(new Presentation\Template\Simple\FullscreenImage(
+        $bitmapLoader->fromFile(__DIR__.'/../assets/images/background.jpg')
+    ))
     ->addSlide(new Presentation\Template\Simple\BigTitle("Bye\nWorld!"))
 ;
 
