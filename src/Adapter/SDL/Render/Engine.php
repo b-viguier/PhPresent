@@ -28,6 +28,8 @@ class Engine implements Render\Engine
 
     public function start(Presentation\SlideShow $slideShow, Graphic\Drawer $drawer)
     {
+        $drawer = new Graphic\Drawer\Cache($drawer);
+
         // Events data
         $quit = false;
         $event = new \SDL_Event();
@@ -65,6 +67,7 @@ class Engine implements Render\Engine
                             $this->screen = $this->screen->resized(
                                 Geometry\Size::fromDimensions($w, $h)
                             );
+                            $drawer->clearCache();
                         }
                         break;
                     case SDL_KEYDOWN:

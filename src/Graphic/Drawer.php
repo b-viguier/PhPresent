@@ -3,9 +3,8 @@
 namespace PhPresent\Graphic;
 
 use PhPresent\Geometry;
-use PhPresent\Pattern;
 
-interface Drawer extends Pattern\MetricProducer
+interface Drawer
 {
     public function clear(): self;
 

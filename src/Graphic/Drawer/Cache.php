@@ -6,7 +6,7 @@ use PhPresent\Geometry;
 use PhPresent\Graphic;
 use PhPresent\Pattern;
 
-class Cache implements Graphic\Drawer
+class Cache implements Graphic\Drawer, Pattern\MetricProducer
 {
     public function __construct(Graphic\Drawer $drawer)
     {
@@ -63,7 +63,11 @@ class Cache implements Graphic\Drawer
     public function allMetrics(): iterable
     {
         yield 'BMP CACHE' => count($this->bitmapCache);
-        yield from $this->drawer->allMetrics();
+    }
+
+    public function clearCache(): void
+    {
+        $this->bitmapCache = [];
     }
 
     /** @var Graphic\Drawer */
