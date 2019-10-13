@@ -5,6 +5,7 @@ namespace PhPresent\Presentation\Template\Simple;
 use PhPresent\Geometry;
 use PhPresent\Graphic;
 use PhPresent\Presentation;
+use PhPresent\Presentation\Screen;
 
 class TitleAndMovingSubtitle implements Presentation\Slide
 {
@@ -14,7 +15,7 @@ class TitleAndMovingSubtitle implements Presentation\Slide
         $this->subTitle = $subTitle;
     }
 
-    public function render(Presentation\Timestamp $timestamp, Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme)
+    public function preload(Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme): void
     {
         $screenCenter = $screen->safeArea()->center();
         $screenHeight = $screen->safeArea()->size()->height();
@@ -30,7 +31,7 @@ class TitleAndMovingSubtitle implements Presentation\Slide
 
         $spritePosition = $text->area()->hCenteredWith($screenCenter)->bottomAlignedWith($screenCenter)->topLeft();
 
-        $titleSprite = Presentation\Sprite::fromBitmap(
+        $this->titleSprite = Presentation\Sprite::fromBitmap(
             $bitmap
         )->moved($spritePosition);
 
@@ -44,22 +45,36 @@ class TitleAndMovingSubtitle implements Presentation\Slide
         $bitmap = $drawer->drawText($text)
             ->toBitmap($text->area()->size());
 
-        $initialSpritePosition = $text->area()->hCenteredWith($screenCenter)->topAlignedWith($screenCenter)->topLeft();
+        $this->subtitleSprite = Presentation\Sprite::fromBitmap($bitmap);
+    }
 
-        while ($timestamp->slideRelative() < 10000 /*ms*/) {
-            $spritePosition = $initialSpritePosition->movedBy(Geometry\Vector::fromCoordinates(sin($timestamp->slideRelative() / 1000) * 100, 0));
-            $subtitleSprite = Presentation\Sprite::fromBitmap($bitmap)->moved($spritePosition);
+    public function render(Presentation\Timestamp $timestamp, Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme)
+    {
+        $screenCenter = $screen->safeArea()->center();
 
-            $timestamp = yield new Presentation\Frame($titleSprite, $subtitleSprite);
+        $initialSpritePosition = Geometry\Rect::fromTopLeftAndSize(
+            $this->subtitleSprite->origin(),
+            $this->subtitleSprite->size()
+        )->hCenteredWith($screenCenter)->topAlignedWith($screenCenter)->topLeft();
+
+        while (true) {
+            $spritePosition = $initialSpritePosition->movedBy(
+                Geometry\Vector::fromCoordinates(sin($timestamp->slideRelative() / 1000) * 100, 0)
+            );
+
+            $timestamp = yield new Presentation\Frame(
+                $this->titleSprite,
+                $this->subtitleSprite->moved($spritePosition)
+            );
         }
-
-        $subtitleSprite = Presentation\Sprite::fromBitmap($bitmap)->moved($initialSpritePosition);
-
-        return new Presentation\Frame($titleSprite, $subtitleSprite);
     }
 
     /** @var string */
     private $title;
+    /** @var Presentation\Sprite */
+    private $titleSprite;
     /** @var string */
     private $subTitle;
+    /** @var Presentation\Sprite */
+    private $subtitleSprite;
 }

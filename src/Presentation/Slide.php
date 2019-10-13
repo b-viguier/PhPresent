@@ -6,6 +6,8 @@ use PhPresent\Graphic;
 
 interface Slide
 {
+    public function preload(Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme): void;
+
     /**
      * @return Frame|\Generator
      */

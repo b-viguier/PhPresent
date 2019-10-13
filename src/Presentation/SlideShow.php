@@ -54,6 +54,41 @@ class SlideShow
         return $this->currentIndex == count($this->slideHandlers) - 1;
     }
 
+    public function preload(Screen $screen, Graphic\Drawer $drawer): Progress
+    {
+        $progress = new class() implements Progress {
+            /** @var int */
+            public $count;
+            /** @var \Generator */
+            public $advance;
+
+            public function count(): int
+            {
+                return $this->count;
+            }
+
+            public function advance(): int
+            {
+                return $this->advance->send(null) ?? $this->count;
+            }
+        };
+
+        $progress->count = 1 + count($this->slideHandlers);
+        $progress->advance = (function () use ($drawer, $screen): \Generator {
+            $current = 0;
+            yield $current++;
+            $drawer->clear();
+            $this->backgroundSlide->slide()->preload($screen, $drawer, $this->theme);
+            foreach ($this->slideHandlers as $slideHandler) {
+                yield $current++;
+                $drawer->clear();
+                $slideHandler->slide()->preload($screen, $drawer, $this->theme);
+            }
+        })();
+
+        return $progress;
+    }
+
     /** @var array<AsyncSlideHandler> */
     private $slideHandlers = [];
     /** @var int */

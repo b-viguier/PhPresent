@@ -4,6 +4,7 @@ namespace PhPresent\Presentation\Template\Simple;
 
 use PhPresent\Graphic;
 use PhPresent\Presentation;
+use PhPresent\Presentation\Screen;
 
 class TitleAndSubtitle implements Presentation\Slide
 {
@@ -13,7 +14,7 @@ class TitleAndSubtitle implements Presentation\Slide
         $this->subTitle = $subTitle;
     }
 
-    public function render(Presentation\Timestamp $timestamp, Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme)
+    public function preload(Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme): void
     {
         $screenCenter = $screen->safeArea()->center();
         $screenHeight = $screen->safeArea()->size()->height();
@@ -45,11 +46,18 @@ class TitleAndSubtitle implements Presentation\Slide
 
         $subtitleSprite = Presentation\Sprite::fromBitmap($bitmap)->moved($spritePosition);
 
-        return new Presentation\Frame($titleSprite, $subtitleSprite);
+        $this->frame = new Presentation\Frame($titleSprite, $subtitleSprite);
+    }
+
+    public function render(Presentation\Timestamp $timestamp, Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme)
+    {
+        return $this->frame;
     }
 
     /** @var string */
     private $title;
     /** @var string */
     private $subTitle;
+    /** @var Presentation\Frame */
+    private $frame;
 }

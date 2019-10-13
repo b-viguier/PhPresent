@@ -5,12 +5,17 @@ namespace PhPresent\Presentation\Template\Simple;
 use PhPresent\Geometry;
 use PhPresent\Graphic;
 use PhPresent\Presentation;
+use PhPresent\Presentation\Screen;
 
 class FullscreenAnimatedImage implements Presentation\Slide
 {
     public function __construct(Graphic\BitmapSequence $bitmapSequence)
     {
         $this->bitmapSequence = $bitmapSequence;
+    }
+
+    public function preload(Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme): void
+    {
     }
 
     public function render(Presentation\Timestamp $timestamp, Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme)

@@ -13,6 +13,11 @@ class AsyncSlideHandler
         $this->contextId = Pattern\Identifier::fromString(self::class, 'empty');
     }
 
+    public function slide(): Slide
+    {
+        return $this->slide;
+    }
+
     public function renderFrame(Timestamp $timestamp, Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme): Frame
     {
         $contextId = Pattern\Identifier::fromIdentifiable(self::class, $screen, $theme);
@@ -55,7 +60,10 @@ class AsyncSlideHandler
             return $this->staticFrame = $frameOrGenerator;
         }
 
-        throw new \LogicException('Slide::renderFrames must return a Generator or a Frame');
+        throw new \LogicException(sprintf(
+            'Slide::renderFrames must return a Generator or a Frame [%s]',
+            get_class($frameOrGenerator)
+        ));
     }
 
     private function currentFrameFromGenerator(): Frame

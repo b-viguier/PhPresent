@@ -28,8 +28,6 @@ class Engine implements Render\Engine
 
     public function start(Presentation\SlideShow $slideShow, Graphic\Drawer $drawer)
     {
-        $drawer = new Graphic\Drawer\Cache($drawer);
-
         // Events data
         $quit = false;
         $event = new \SDL_Event();
@@ -49,10 +47,11 @@ class Engine implements Render\Engine
             new PostRenderer\NoOp(),
             new PostRenderer\Stack(
                 new PostRenderer\SafeZone(),
-                new PostRenderer\Statistics($dbgTextRenderer, $drawer)
+                new PostRenderer\Statistics($dbgTextRenderer)
             ),
         ];
 
+        $this->loadingScreen($dbgTextRenderer, $slideShow->preload($this->screen, $drawer));
         while (!$quit) {
             // Inputs polling
             while (sdl_pollevent($event) !== 0) {
@@ -67,7 +66,7 @@ class Engine implements Render\Engine
                             $this->screen = $this->screen->resized(
                                 Geometry\Size::fromDimensions($w, $h)
                             );
-                            $drawer->clearCache();
+                            $this->loadingScreen($dbgTextRenderer, $slideShow->preload($this->screen, $drawer));
                         }
                         break;
                     case SDL_KEYDOWN:
@@ -126,6 +125,36 @@ class Engine implements Render\Engine
             \SDL_Delay(1000 / 60); /* 60 FPS */
         }
         echo PHP_EOL;
+    }
+
+    private function loadingScreen(DbgTextRenderer $textRenderer, Presentation\Progress $progress): void
+    {
+        $size = (int) ($this->screen->safeArea()->size()->height() / 30);
+        $event = new \SDL_Event();
+        $current = $progress->advance();
+        while ($current < $progress->count()) {
+            // Inputs polling
+            while (sdl_pollevent($event) !== 0) {
+                // No op
+            }
+
+            //Clear screen
+            \SDL_SetRenderDrawColor($this->renderer, 0, 0, 0, 0);
+            \SDL_RenderClear($this->renderer);
+
+            $textRenderer->render(
+                $this->renderer,
+                "LOADING: $current / ".$progress->count(),
+                $this->screen->fullArea()->topLeft(),
+                $size
+            );
+
+            // Screen refresh
+            \SDL_RenderPresent($this->renderer);
+            \SDL_Delay(1000 / 60); /* 60 FPS */
+
+            $current = $progress->advance();
+        }
     }
 
     private function helpSprite(Graphic\Drawer $drawer): Presentation\TraversableSprites

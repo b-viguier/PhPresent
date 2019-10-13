@@ -12,7 +12,7 @@ class BigTitle implements Presentation\Slide
         $this->title = $title;
     }
 
-    public function render(Presentation\Timestamp $timestamp, Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme)
+    public function preload(Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme): void
     {
         $font = $theme->fontH1()
             ->relativeTo($screen->safeArea()->size()->height())
@@ -24,11 +24,18 @@ class BigTitle implements Presentation\Slide
 
         $spritePosition = $text->area()->centeredOn($screen->safeArea()->center())->topLeft();
 
-        return new Presentation\Frame(Presentation\Sprite::fromBitmap($bitmap)
+        $this->frame = new Presentation\Frame(Presentation\Sprite::fromBitmap($bitmap)
             ->moved($spritePosition)
         );
     }
 
+    public function render(Presentation\Timestamp $timestamp, Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme)
+    {
+        return $this->frame;
+    }
+
     /** @var string */
     private $title = '';
+    /** @var Presentation\Frame */
+    private $frame;
 }
