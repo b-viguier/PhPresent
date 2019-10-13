@@ -66,7 +66,7 @@ class Drawer implements Graphic\Drawer
         try {
             $image = new \Imagick();
             $image->readImageBlob($bitmap->content());
-            $image->resizeImage((int) $dst->size()->width(), (int) $dst->size()->height(), \Imagick::FILTER_GAUSSIAN, false);
+            $image->cropImage($src->size()->width(), $src->size()->height(), $src->topLeft()->x(), $src->topLeft()->y());
             $this->drawer->composite(
                 \Imagick::COMPOSITE_OVER,
                 (int) $dst->topLeft()->x(),
