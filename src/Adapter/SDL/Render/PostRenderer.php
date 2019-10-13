@@ -1,8 +1,8 @@
 <?php
 
-namespace RevealPhp\Adapter\SDL\Render;
+namespace PhPresent\Adapter\SDL\Render;
 
-use RevealPhp\Presentation;
+use PhPresent\Presentation;
 
 interface PostRenderer
 {

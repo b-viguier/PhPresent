@@ -1,9 +1,9 @@
 <?php
 
-namespace RevealPhp\Presentation\Template\Simple;
+namespace PhPresent\Presentation\Template\Simple;
 
-use RevealPhp\Graphic;
-use RevealPhp\Presentation;
+use PhPresent\Graphic;
+use PhPresent\Presentation;
 
 class BigTitle implements Presentation\Slide
 {

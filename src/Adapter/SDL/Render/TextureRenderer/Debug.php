@@ -1,9 +1,9 @@
 <?php
 
-namespace RevealPhp\Adapter\SDL\Render\TextureRenderer;
+namespace PhPresent\Adapter\SDL\Render\TextureRenderer;
 
-use RevealPhp\Adapter\SDL\Render\Texture;
-use RevealPhp\Adapter\SDL\Render\TextureRenderer;
+use PhPresent\Adapter\SDL\Render\Texture;
+use PhPresent\Adapter\SDL\Render\TextureRenderer;
 
 class Debug implements TextureRenderer
 {

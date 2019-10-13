@@ -1,6 +1,6 @@
 <?php
 
-namespace RevealPhp\Adapter\SDL\Render;
+namespace PhPresent\Adapter\SDL\Render;
 
 interface TextureRenderer
 {

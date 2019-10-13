@@ -1,6 +1,6 @@
 <?php
 
-namespace RevealPhp\Graphic\Exception;
+namespace PhPresent\Graphic\Exception;
 
 class DrawerException extends \DomainException
 {

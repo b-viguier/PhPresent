@@ -1,10 +1,10 @@
 <?php
 
-namespace RevealPhp\Graphic\Drawer;
+namespace PhPresent\Graphic\Drawer;
 
-use RevealPhp\Geometry;
-use RevealPhp\Graphic;
-use RevealPhp\Pattern;
+use PhPresent\Geometry;
+use PhPresent\Graphic;
+use PhPresent\Pattern;
 
 class Cache implements Graphic\Drawer
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace RevealPhp\Presentation\Template\Simple;
+namespace PhPresent\Presentation\Template\Simple;
 
-use RevealPhp\Geometry;
-use RevealPhp\Graphic;
-use RevealPhp\Presentation;
+use PhPresent\Geometry;
+use PhPresent\Graphic;
+use PhPresent\Presentation;
 
 class FullscreenAnimatedImage implements Presentation\Slide
 {

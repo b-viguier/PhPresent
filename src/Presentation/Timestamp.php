@@ -1,8 +1,8 @@
 <?php
 
-namespace RevealPhp\Presentation;
+namespace PhPresent\Presentation;
 
-use RevealPhp\Pattern;
+use PhPresent\Pattern;
 
 class Timestamp
 {

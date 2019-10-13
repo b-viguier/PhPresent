@@ -1,6 +1,6 @@
 <?php
 
-namespace RevealPhp\Adapter\SDL\Render\Exception;
+namespace PhPresent\Adapter\SDL\Render\Exception;
 
 class RenderException extends \Exception
 {

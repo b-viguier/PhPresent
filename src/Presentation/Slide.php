@@ -1,8 +1,8 @@
 <?php
 
-namespace RevealPhp\Presentation;
+namespace PhPresent\Presentation;
 
-use RevealPhp\Graphic;
+use PhPresent\Graphic;
 
 interface Slide
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace RevealPhp\Adapter\SDL\Render\PostRenderer;
+namespace PhPresent\Adapter\SDL\Render\PostRenderer;
 
-use RevealPhp\Adapter\SDL\Render\PostRenderer;
-use RevealPhp\Presentation;
+use PhPresent\Adapter\SDL\Render\PostRenderer;
+use PhPresent\Presentation;
 
 class Stack implements PostRenderer
 {

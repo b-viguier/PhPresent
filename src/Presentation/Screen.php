@@ -1,9 +1,9 @@
 <?php
 
-namespace RevealPhp\Presentation;
+namespace PhPresent\Presentation;
 
-use RevealPhp\Geometry;
-use RevealPhp\Pattern;
+use PhPresent\Geometry;
+use PhPresent\Pattern;
 
 class Screen implements Pattern\Identifiable
 {

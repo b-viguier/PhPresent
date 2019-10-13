@@ -1,10 +1,10 @@
 <?php
 
-namespace RevealPhp\Adapter\SDL\Render\TextureLoader;
+namespace PhPresent\Adapter\SDL\Render\TextureLoader;
 
-use RevealPhp\Adapter\SDL\Render\Texture;
-use RevealPhp\Adapter\SDL\Render\TextureLoader;
-use RevealPhp\Presentation;
+use PhPresent\Adapter\SDL\Render\Texture;
+use PhPresent\Adapter\SDL\Render\TextureLoader;
+use PhPresent\Presentation;
 
 class Sprite implements TextureLoader
 {

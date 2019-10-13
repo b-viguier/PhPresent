@@ -1,9 +1,9 @@
 <?php
 
-namespace RevealPhp\Presentation;
+namespace PhPresent\Presentation;
 
-use RevealPhp\Graphic;
-use RevealPhp\Pattern;
+use PhPresent\Graphic;
+use PhPresent\Pattern;
 
 class AsyncSlideHandler
 {

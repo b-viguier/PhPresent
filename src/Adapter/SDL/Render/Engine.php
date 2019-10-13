@@ -1,11 +1,11 @@
 <?php
 
-namespace RevealPhp\Adapter\SDL\Render;
+namespace PhPresent\Adapter\SDL\Render;
 
-use RevealPhp\Geometry;
-use RevealPhp\Graphic;
-use RevealPhp\Presentation;
-use RevealPhp\Render;
+use PhPresent\Geometry;
+use PhPresent\Graphic;
+use PhPresent\Presentation;
+use PhPresent\Render;
 
 class Engine implements Render\Engine
 {
@@ -13,7 +13,7 @@ class Engine implements Render\Engine
     {
         \SDL_Init(SDL_INIT_VIDEO);
         $this->window = \SDL_CreateWindow(
-            'RevealPhp',
+            'PhPresent',
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
             $screen->fullArea()->size()->width(), $screen->fullArea()->size()->height(),
             SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI

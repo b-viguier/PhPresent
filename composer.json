@@ -1,5 +1,5 @@
 {
-    "name": "bviguier/reveal-php",
+    "name": "bviguier/phpresent",
     "description": "Create and run presentation from Php.",
     "type": "library",
     "license": "MIT",
@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "RevealPhp\\": "src/"
+            "PhPresent\\": "src/"
         }
     },
     "scripts": {

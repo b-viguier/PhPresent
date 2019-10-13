@@ -1,6 +1,6 @@
 <?php
 
-namespace RevealPhp\Graphic\Exception;
+namespace PhPresent\Graphic\Exception;
 
 class ColorException extends \DomainException
 {

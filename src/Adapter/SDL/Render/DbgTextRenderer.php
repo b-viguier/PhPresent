@@ -1,9 +1,9 @@
 <?php
 
-namespace RevealPhp\Adapter\SDL\Render;
+namespace PhPresent\Adapter\SDL\Render;
 
-use RevealPhp\Geometry;
-use RevealPhp\Pattern;
+use PhPresent\Geometry;
+use PhPresent\Pattern;
 
 class DbgTextRenderer
 {

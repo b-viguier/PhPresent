@@ -1,8 +1,8 @@
 <?php
 
-namespace RevealPhp\Geometry;
+namespace PhPresent\Geometry;
 
-use RevealPhp\Pattern;
+use PhPresent\Pattern;
 
 class BoundingBox
 {

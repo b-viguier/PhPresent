@@ -1,6 +1,6 @@
 <?php
 
-namespace RevealPhp\Graphic;
+namespace PhPresent\Graphic;
 
 interface BitmapLoader
 {

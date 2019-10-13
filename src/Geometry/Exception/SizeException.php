@@ -1,6 +1,6 @@
 <?php
 
-namespace RevealPhp\Geometry\Exception;
+namespace PhPresent\Geometry\Exception;
 
 class SizeException extends \DomainException
 {

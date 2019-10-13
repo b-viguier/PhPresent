@@ -1,9 +1,9 @@
 <?php
 
-namespace RevealPhp\Adapter\Imagick\Graphic;
+namespace PhPresent\Adapter\Imagick\Graphic;
 
-use RevealPhp\Geometry;
-use RevealPhp\Graphic;
+use PhPresent\Geometry;
+use PhPresent\Graphic;
 
 class Drawer implements Graphic\Drawer
 {

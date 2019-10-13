@@ -1,8 +1,8 @@
 <?php
 
-namespace RevealPhp\Graphic;
+namespace PhPresent\Graphic;
 
-use RevealPhp\Pattern;
+use PhPresent\Pattern;
 
 class BitmapSequenceFrame implements Pattern\Identifiable
 {

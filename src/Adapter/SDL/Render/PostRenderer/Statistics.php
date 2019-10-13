@@ -1,12 +1,12 @@
 <?php
 
-namespace RevealPhp\Adapter\SDL\Render\PostRenderer;
+namespace PhPresent\Adapter\SDL\Render\PostRenderer;
 
-use RevealPhp\Adapter\SDL\Render\DbgTextRenderer;
-use RevealPhp\Adapter\SDL\Render\PostRenderer;
-use RevealPhp\Geometry;
-use RevealPhp\Pattern;
-use RevealPhp\Presentation;
+use PhPresent\Adapter\SDL\Render\DbgTextRenderer;
+use PhPresent\Adapter\SDL\Render\PostRenderer;
+use PhPresent\Geometry;
+use PhPresent\Pattern;
+use PhPresent\Presentation;
 
 class Statistics implements PostRenderer
 {

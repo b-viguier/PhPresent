@@ -1,11 +1,11 @@
 <?php
 
-namespace RevealPhp\Adapter\Imagick\Graphic;
+namespace PhPresent\Adapter\Imagick\Graphic;
 
-use RevealPhp\Geometry;
-use RevealPhp\Graphic;
+use PhPresent\Geometry;
+use PhPresent\Graphic;
 
-class BitmapSequenceLoader implements \RevealPhp\Graphic\BitmapSequenceLoader
+class BitmapSequenceLoader implements \PhPresent\Graphic\BitmapSequenceLoader
 {
     public function fromFile(string $filePath): Graphic\BitmapSequence
     {

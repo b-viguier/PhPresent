@@ -1,6 +1,6 @@
 <?php
 
-namespace RevealPhp\Presentation;
+namespace PhPresent\Presentation;
 
 class SpriteStack implements TraversableSprites
 {

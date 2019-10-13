@@ -1,9 +1,9 @@
 <?php
 
-namespace RevealPhp\Graphic;
+namespace PhPresent\Graphic;
 
-use RevealPhp\Geometry;
-use RevealPhp\Pattern;
+use PhPresent\Geometry;
+use PhPresent\Pattern;
 
 class Text implements Pattern\Identifiable
 {

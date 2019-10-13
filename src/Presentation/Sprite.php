@@ -1,10 +1,10 @@
 <?php
 
-namespace RevealPhp\Presentation;
+namespace PhPresent\Presentation;
 
-use RevealPhp\Geometry;
-use RevealPhp\Graphic;
-use RevealPhp\Pattern;
+use PhPresent\Geometry;
+use PhPresent\Graphic;
+use PhPresent\Pattern;
 
 class Sprite implements TraversableSprites
 {

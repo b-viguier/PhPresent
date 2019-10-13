@@ -1,9 +1,9 @@
 <?php
 
-namespace RevealPhp\Render;
+namespace PhPresent\Render;
 
-use RevealPhp\Graphic;
-use RevealPhp\Presentation;
+use PhPresent\Graphic;
+use PhPresent\Presentation;
 
 interface Engine
 {

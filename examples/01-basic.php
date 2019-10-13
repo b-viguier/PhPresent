@@ -2,10 +2,10 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-use RevealPhp\Adapter;
-use RevealPhp\Geometry;
-use RevealPhp\Graphic;
-use RevealPhp\Presentation;
+use PhPresent\Adapter;
+use PhPresent\Geometry;
+use PhPresent\Graphic;
+use PhPresent\Presentation;
 
 $bitmapLoader = new Adapter\Imagick\Graphic\BitmapLoader();
 $bitmapSequenceLoader = new Adapter\Imagick\Graphic\BitmapSequenceLoader();
@@ -17,7 +17,7 @@ $presentation = new Presentation\SlideShow(
 
 $presentation
     ->addSlide(new Presentation\Template\Simple\TitleAndSubtitle(
-        'RevealPhp', 'A Slideshow tool'
+        'PhPresent', 'A Slideshow tool'
     ))
     ->addSlide(new Presentation\Template\Simple\FullscreenAnimatedImage(
         $bitmapSequenceLoader->fromFile(__DIR__.'/../assets/images/whirlyGif.gif')

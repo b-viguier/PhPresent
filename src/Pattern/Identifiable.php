@@ -1,6 +1,6 @@
 <?php
 
-namespace RevealPhp\Pattern;
+namespace PhPresent\Pattern;
 
 interface Identifiable
 {
