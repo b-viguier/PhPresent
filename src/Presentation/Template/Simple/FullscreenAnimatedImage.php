@@ -17,6 +17,7 @@ class FullscreenAnimatedImage implements Presentation\Slide
     {
         $imageSpace = Geometry\Rect::fromSize($this->bitmapSequence->size());
         $screenAreaInImageSpace = $imageSpace->insideRect($screen->fullArea()->size()->ratio());
+        $minSize = $screenAreaInImageSpace->size()->intersectedBy($screen->fullArea()->size());
 
         while (true) {
             $timestamp = yield new Presentation\Frame(Presentation\Sprite::fromBitmap(
@@ -24,10 +25,11 @@ class FullscreenAnimatedImage implements Presentation\Slide
                     ->drawBitmap(
                         $this->bitmapSequence->content($timestamp->slideRelative()),
                         $screenAreaInImageSpace,
-                        Geometry\Rect::fromSize($screen->fullArea()->size())
+                        Geometry\Rect::fromSize($minSize)
                     )
-                    ->toBitmap($screen->fullArea()->size())
+                    ->toBitmap($minSize)
                 )->moved($screen->fullArea()->topLeft())
+                ->resized($screen->fullArea()->size())
             );
         }
     }

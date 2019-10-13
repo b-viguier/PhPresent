@@ -45,6 +45,14 @@ class Size implements Pattern\Identifiable
         return Vector::fromCoordinates($this->width, $this->height);
     }
 
+    public function intersectedBy(self $otherSize): self
+    {
+        return self::fromDimensions(
+            min($this->width, $otherSize->width),
+            min($this->height, $otherSize->height),
+        );
+    }
+
     public function identifier(): Pattern\Identifier
     {
         return Pattern\Identifier::fromString(
