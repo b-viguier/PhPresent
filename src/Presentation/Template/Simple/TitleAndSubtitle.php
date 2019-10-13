@@ -29,7 +29,7 @@ class TitleAndSubtitle implements Presentation\Slide
 
         $spritePosition = $text->area()->hCenteredWith($screenCenter)->bottomAlignedWith($screenCenter)->topLeft();
 
-        $titleSprite = Presentation\Sprite::fromBitmap($bitmap, $spritePosition);
+        $titleSprite = Presentation\Sprite::fromBitmap($bitmap)->moved($spritePosition);
 
         // Subtitle
         $drawer->clear();
@@ -43,7 +43,7 @@ class TitleAndSubtitle implements Presentation\Slide
 
         $spritePosition = $text->area()->hCenteredWith($screenCenter)->topAlignedWith($screenCenter)->topLeft();
 
-        $subtitleSprite = Presentation\Sprite::fromBitmap($bitmap, $spritePosition);
+        $subtitleSprite = Presentation\Sprite::fromBitmap($bitmap)->moved($spritePosition);
 
         return new Presentation\Frame($titleSprite, $subtitleSprite);
     }

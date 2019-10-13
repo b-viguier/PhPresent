@@ -140,9 +140,8 @@ class Engine implements Render\Engine
                         ->withAlignment(Graphic\Font::ALIGN_CENTER)
                         ->withBrush(Graphic\Brush::createFilled(Graphic\Color::RGB(250, 220, 0)))
                 )
-            )->toBitmap($this->screen->safeArea()->size()),
-            $this->screen->safeArea()->topLeft()
-        );
+            )->toBitmap($this->screen->safeArea()->size())
+        )->moved($this->screen->safeArea()->topLeft());
     }
 
     /** @var \SDL_Window */

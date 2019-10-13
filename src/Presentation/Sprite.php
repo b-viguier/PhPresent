@@ -10,11 +10,12 @@ class Sprite implements TraversableSprites
 {
     use Pattern\PrivateConstructor;
 
-    public static function fromBitmap(Graphic\Bitmap $bitmap, Geometry\Point $position): self
+    public static function fromBitmap(Graphic\Bitmap $bitmap): self
     {
         $sprite = new self();
         $sprite->bitmap = $bitmap;
-        $sprite->position = $position;
+        $sprite->origin = Geometry\Point::origin();
+        $sprite->size = $bitmap->size();
 
         return $sprite;
     }
@@ -24,9 +25,30 @@ class Sprite implements TraversableSprites
         return $this->bitmap;
     }
 
-    public function position(): Geometry\Point
+    public function origin(): Geometry\Point
     {
-        return $this->position;
+        return $this->origin;
+    }
+
+    public function moved(Geometry\Point $origin): self
+    {
+        $sprite = clone $this;
+        $sprite->origin = $origin;
+
+        return $sprite;
+    }
+
+    public function resized(Geometry\Size $size): self
+    {
+        $sprite = clone $this;
+        $sprite->size = $size;
+
+        return $sprite;
+    }
+
+    public function size(): Geometry\Size
+    {
+        return $this->size;
     }
 
     public function getIterator(): \Traversable
@@ -37,5 +59,7 @@ class Sprite implements TraversableSprites
     /** @var Graphic\Bitmap */
     private $bitmap;
     /** @var Geometry\Point */
-    private $position;
+    private $origin;
+    /** @var Geometry\Size */
+    private $size;
 }

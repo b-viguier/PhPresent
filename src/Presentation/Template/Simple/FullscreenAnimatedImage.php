@@ -24,11 +24,11 @@ class FullscreenAnimatedImage implements Presentation\Slide
                     ->drawBitmap(
                         $this->bitmapSequence->content($timestamp->slideRelative()),
                         $screenAreaInImageSpace,
-                        $screen->fullArea()
+                        Geometry\Rect::fromSize($screen->fullArea()->size())
                     )
-                    ->toBitmap($screen->fullArea()->size()),
-                $screen->fullArea()->topLeft()
-            ));
+                    ->toBitmap($screen->fullArea()->size())
+                )->moved($screen->fullArea()->topLeft())
+            );
         }
     }
 

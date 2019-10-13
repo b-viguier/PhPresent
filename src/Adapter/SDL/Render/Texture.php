@@ -8,11 +8,14 @@ class Texture
 {
     public function __construct(Presentation\Sprite $sprite, $sdlTexture)
     {
+        $topLeft = $sprite->origin();
+        $size = $sprite->size();
+
         $this->destination = new \SDL_Rect(
-            (int) $sprite->position()->x(),
-            (int) $sprite->position()->y(),
-            (int) $sprite->bitmap()->size()->width(),
-            (int) $sprite->bitmap()->size()->height()
+            (int) $topLeft->x(),
+            (int) $topLeft->y(),
+            (int) $size->width(),
+            (int) $size->height()
         );
         $this->sdlTexture = $sdlTexture;
     }

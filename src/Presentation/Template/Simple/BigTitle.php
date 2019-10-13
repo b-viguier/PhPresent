@@ -24,7 +24,9 @@ class BigTitle implements Presentation\Slide
 
         $spritePosition = $text->area()->centeredOn($screen->safeArea()->center())->topLeft();
 
-        return new Presentation\Frame(Presentation\Sprite::fromBitmap($bitmap, $spritePosition));
+        return new Presentation\Frame(Presentation\Sprite::fromBitmap($bitmap)
+            ->moved($spritePosition)
+        );
     }
 
     /** @var string */

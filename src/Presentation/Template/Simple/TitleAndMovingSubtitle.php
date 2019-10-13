@@ -30,7 +30,9 @@ class TitleAndMovingSubtitle implements Presentation\Slide
 
         $spritePosition = $text->area()->hCenteredWith($screenCenter)->bottomAlignedWith($screenCenter)->topLeft();
 
-        $titleSprite = Presentation\Sprite::fromBitmap($bitmap, $spritePosition);
+        $titleSprite = Presentation\Sprite::fromBitmap(
+            $bitmap
+        )->moved($spritePosition);
 
         // Subtitle
         $drawer->clear();
@@ -43,16 +45,15 @@ class TitleAndMovingSubtitle implements Presentation\Slide
             ->toBitmap($text->area()->size());
 
         $initialSpritePosition = $text->area()->hCenteredWith($screenCenter)->topAlignedWith($screenCenter)->topLeft();
-        $subtitleSprite = Presentation\Sprite::fromBitmap($bitmap, $spritePosition);
 
         while ($timestamp->slideRelative() < 10000 /*ms*/) {
             $spritePosition = $initialSpritePosition->movedBy(Geometry\Vector::fromCoordinates(sin($timestamp->slideRelative() / 1000) * 100, 0));
-            $subtitleSprite = Presentation\Sprite::fromBitmap($bitmap, $spritePosition);
+            $subtitleSprite = Presentation\Sprite::fromBitmap($bitmap)->moved($spritePosition);
 
             $timestamp = yield new Presentation\Frame($titleSprite, $subtitleSprite);
         }
 
-        $subtitleSprite = Presentation\Sprite::fromBitmap($bitmap, $initialSpritePosition);
+        $subtitleSprite = Presentation\Sprite::fromBitmap($bitmap)->moved($initialSpritePosition);
 
         return new Presentation\Frame($titleSprite, $subtitleSprite);
     }

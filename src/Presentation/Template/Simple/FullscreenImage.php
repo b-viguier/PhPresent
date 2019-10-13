@@ -23,11 +23,11 @@ class FullscreenImage implements Presentation\Slide
                 ->drawBitmap(
                     $this->bitmap,
                     $screenAreaInImageSpace,
-                    $screen->fullArea()
+                    Geometry\Rect::fromSize($screen->fullArea()->size())
                 )
-                ->toBitmap($screen->fullArea()->size()),
-            $screen->fullArea()->topLeft()
-        ));
+                ->toBitmap($screen->fullArea()->size())
+            )->moved($screen->fullArea()->topLeft())
+        );
     }
 
     /** @var Graphic\Bitmap */
