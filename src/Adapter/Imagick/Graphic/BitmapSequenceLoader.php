@@ -11,9 +11,11 @@ class BitmapSequenceLoader implements \PhPresent\Graphic\BitmapSequenceLoader
     {
         try {
             $animation = new \Imagick($filePath);
+            $animation = $animation->coalesceImages();
             $frames = [];
 
             foreach ($animation as $_) {
+                $animation->setImageFormat('bmp');
                 $frames[] = new Graphic\BitmapSequenceFrame(
                     $animation->getImageBlob(),
                     $animation->getImageDelay() * 10 //centi-seconds to milli-seconds
