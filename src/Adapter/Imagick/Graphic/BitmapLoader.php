@@ -11,6 +11,7 @@ class BitmapLoader implements \PhPresent\Graphic\BitmapLoader
     {
         try {
             $image = new \Imagick($filePath);
+            $image->setFormat('bmp');
 
             return Graphic\Bitmap::fromBmpContent(
                 $image->getImageBlob(),
