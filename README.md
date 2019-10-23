@@ -103,3 +103,10 @@ Check [`02-creating-slide.php` example](/examples/02-creating-slide.php) to see 
 ### Creating animated slides
 Here the funny part!
 Have a look to [`03-animating-slide.php` example](/examples/03-animating-slide.php) for more details.
+
+## Contributing
+
+* `composer analyse`: static code analysis
+* `composer cs`: code style (`composer cs-fix` to automatically fix it)
+* `composer deps`: check dependencies between namespaces
+* `composer ci`: run all previous commands for CI 
