@@ -16,10 +16,10 @@ $presentation = new Presentation\SlideShow(
 );
 
 $presentation
-    ->addSlide(new class implements Presentation\Slide {
+    ->addSlide(new class() implements Presentation\Slide {
         public function preload(Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme): void
         {
-            /**
+            /*
              * This function is called once, when the slideshow is rendered with some new dimensions at screen.
              * You can preload/create some resources if you want to optimize rendering time between each slide.
              * You can safely let this function empty.
@@ -36,7 +36,7 @@ $presentation
 
             // Create a \PhPresent\Graphic\Text element that we will be able to position and render.
             $text = $drawer->createText(
-                "Hello World",
+                'Hello World',
                 // The theme contains a *relative* font,
                 // allowing to create a graphical font with a size adapted to current screen resolution.
                 $theme->fontH1()->relativeTo($screen->safeArea()->size()->height())
@@ -50,7 +50,7 @@ $presentation
             $sprite = Presentation\Sprite::fromBitmap($bitmap)->moved($textDestination->topLeft());
 
             return new Presentation\Frame($sprite);
-    }
+        }
     })
 ;
 
