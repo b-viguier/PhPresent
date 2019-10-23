@@ -31,7 +31,7 @@ class PdfExporter
             foreach ($frame->sprites() as $sprite) {
                 $drawer->drawBitmap(
                     $sprite->bitmap(),
-                    Geometry\Rect::fromSize($sprite->size()),
+                    Geometry\Rect::fromSize($sprite->bitmap()->size()),
                     Geometry\Rect::fromTopLeftAndSize(
                         $sprite->origin(),
                         $sprite->size()
