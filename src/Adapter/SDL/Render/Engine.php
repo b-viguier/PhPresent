@@ -24,6 +24,9 @@ class Engine implements Render\Engine
         $this->screen = Presentation\Screen::fromSizeWithExpectedRatio(
             Geometry\Size::fromDimensions($w, $h)
         );
+
+        // Rendering runs at 60FPS
+        $this->frameRateLimiter = new FrameRateLimiter(60);
     }
 
     public function start(Presentation\SlideShow $slideShow, Graphic\Drawer $drawer)
@@ -53,6 +56,8 @@ class Engine implements Render\Engine
 
         $this->loadingScreen($dbgTextRenderer, $slideShow->preload($this->screen, $drawer));
         while (!$quit) {
+            $this->frameRateLimiter->renderingStarts();
+
             // Inputs polling
             while (sdl_pollevent($event) !== 0) {
                 switch ($event->type) {
@@ -122,7 +127,7 @@ class Engine implements Render\Engine
 
             // Screen refresh
             \SDL_RenderPresent($this->renderer);
-            \SDL_Delay(1000 / 60); /* 60 FPS */
+            $this->frameRateLimiter->pause();
         }
         echo PHP_EOL;
     }
@@ -133,6 +138,8 @@ class Engine implements Render\Engine
         $event = new \SDL_Event();
         $current = $progress->advance();
         while ($current < $progress->count()) {
+            $this->frameRateLimiter->renderingStarts();
+
             // Inputs polling
             while (sdl_pollevent($event) !== 0) {
                 // No op
@@ -151,7 +158,7 @@ class Engine implements Render\Engine
 
             // Screen refresh
             \SDL_RenderPresent($this->renderer);
-            \SDL_Delay(1000 / 60); /* 60 FPS */
+            $this->frameRateLimiter->pause();
 
             $current = $progress->advance();
         }
@@ -181,4 +188,6 @@ class Engine implements Render\Engine
     private $renderer;
     /** @var Presentation\Screen */
     private $screen;
+    /** @var FrameRateLimiter */
+    private $frameRateLimiter;
 }
