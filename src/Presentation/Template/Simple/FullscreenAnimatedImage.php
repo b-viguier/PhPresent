@@ -20,21 +20,11 @@ class FullscreenAnimatedImage implements Presentation\Slide
 
     public function render(Presentation\Timestamp $timestamp, Presentation\Screen $screen, Graphic\Drawer $drawer, Graphic\Theme $theme)
     {
-        $imageSpace = Geometry\Rect::fromSize($this->bitmapSequence->size());
-        $screenAreaInImageSpace = $imageSpace->insideRect($screen->fullArea()->size()->ratio());
-        $minSize = $screenAreaInImageSpace->size()->intersectedBy($screen->fullArea()->size());
-
         while (true) {
-            $timestamp = yield new Presentation\Frame(Presentation\Sprite::fromBitmap(
-                $drawer
-                    ->drawBitmap(
-                        $this->bitmapSequence->content($timestamp->slideRelative()),
-                        $screenAreaInImageSpace,
-                        Geometry\Rect::fromSize($minSize)
-                    )
-                    ->toBitmap($minSize)
-                )->moved($screen->fullArea()->topLeft())
-                ->resized($screen->fullArea()->size())
+            $timestamp = yield new Presentation\Frame(
+                Presentation\Sprite::fromBitmap($this->bitmapSequence->content($timestamp->slideRelative()))
+                    ->moved($screen->fullArea()->topLeft())
+                    ->resized($screen->fullArea()->size())
             );
         }
     }
