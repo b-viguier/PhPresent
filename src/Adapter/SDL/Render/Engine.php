@@ -51,7 +51,7 @@ class Engine implements Render\Engine
             ),
         ];
 
-        $this->loadingScreen($dbgTextRenderer, $slideShow->preload($this->screen, $drawer));
+        $this->preload($dbgTextRenderer, $slideShow, $drawer);
         while (!$quit) {
             // Inputs polling
             while (sdl_pollevent($event) !== 0) {
@@ -61,12 +61,7 @@ class Engine implements Render\Engine
                         break;
                     case SDL_WINDOWEVENT:
                         if ($event->window->event === SDL_WINDOWEVENT_RESIZED) {
-                            $w = $h = 0;
-                            \SDL_GetRendererOutputSize($this->renderer, $w, $h);
-                            $this->screen = $this->screen->resized(
-                                Geometry\Size::fromDimensions($w, $h)
-                            );
-                            $this->loadingScreen($dbgTextRenderer, $slideShow->preload($this->screen, $drawer));
+                            $this->preload($dbgTextRenderer, $slideShow, $drawer);
                         }
                         break;
                     case SDL_KEYDOWN:
@@ -127,15 +122,27 @@ class Engine implements Render\Engine
         echo PHP_EOL;
     }
 
-    private function loadingScreen(DbgTextRenderer $textRenderer, Presentation\Progress $progress): void
+    private function preload(DbgTextRenderer $textRenderer, Presentation\SlideShow $slideShow, Graphic\Drawer $drawer): void
     {
+        reload:
+
+        $w = $h = 0;
+        \SDL_GetRendererOutputSize($this->renderer, $w, $h);
+        $this->screen = $this->screen->resized(
+            Geometry\Size::fromDimensions($w, $h)
+        );
+
+        $progress = $slideShow->preload($this->screen, $drawer);
+
         $size = (int) ($this->screen->safeArea()->size()->height() / 30);
         $event = new \SDL_Event();
         $current = $progress->advance();
         while ($current < $progress->count()) {
             // Inputs polling
             while (sdl_pollevent($event) !== 0) {
-                // No op
+                if ($event->type === SDL_WINDOWEVENT && $event->window->event === SDL_WINDOWEVENT_RESIZED) {
+                    goto reload; // Avoid nesting function calls
+                }
             }
 
             //Clear screen
